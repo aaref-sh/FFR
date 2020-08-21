@@ -9,7 +9,15 @@ namespace FFR
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Scripts/jquery-{version}.js"));
+                        "~/Scripts/jquery-{version}.js",
+                        "~/Scripts/baguetteBox.min.js",
+                        "~/Scripts/contact-form-script.js",
+                        "~/Scripts/custom.js",
+                        "~/Scripts/images-loded.min.js",
+                        "~/Scripts/isotope.min.js",
+                        "~/Scripts/jquery.mapify.js",
+                        "~/Scripts/jquery.superslides.min.js"
+                        ));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
@@ -24,7 +32,18 @@ namespace FFR
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+                      "~/Content/site.css",
+                      "~/Content/animate.css",
+                      "~/Content/baguetteBox.min.css",
+                      "~/Content/classic.css",
+                      "~/Content/classic.date.css",
+                      "~/Content/classic.time.css",
+                      "~/Content/custom.css",
+                      "~/Content/font-awesome.min.css",
+                      "~/Content/responsive.css",
+                      "~/Content/style.css",
+                      "~/Content/superslides.css"
+                      ));
         }
     }
 }
