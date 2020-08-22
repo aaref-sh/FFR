@@ -1,0 +1,65 @@
+﻿@model IEnumerable<FFR.Models.meal>
+
+@{
+    ViewBag.Title = "إنشاء عرض";
+}
+
+<!-- Start All Pages -->
+<div class="all-page-title page-breadcrumb">
+    <div class="container text-center">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1>قائمة إنشاء عرض</h1>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End All Pages -->
+<!-- Start Stuff -->
+<div class="stuff-box">
+    <div class="container text-right" dir="rtl">
+        <table class="table">
+            <tr>
+                <th>
+                    اسم الوجبة
+                </th>
+                <th>
+                    السعر
+                </th>
+                <th>
+                    الوصف
+                </th>
+                <th>
+                    الصنف
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.price)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.discription)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.categories.name)
+                    </td>
+                    <td>
+                        @Html.ActionLink("إنشاء عرض", "Create_offer", new { id = item.Id })
+                    </td>
+                </tr>
+            }
+
+        </table>
+
+        <div>
+            @Html.ActionLink("العودة لصفحة الإدارة", "Index")
+        </div>
+    </div>
+</div>

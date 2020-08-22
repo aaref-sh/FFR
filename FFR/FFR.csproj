@@ -286,6 +286,8 @@
     <Content Include="Views\Management\edit_list.cshtml" />
     <Content Include="Views\Management\delete_offer.cshtml" />
     <Content Include="Views\Management\Edit.cshtml" />
+    <Content Include="Views\Management\create_offer_list.cshtml" />
+    <Content Include="Views\Management\create_offer.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

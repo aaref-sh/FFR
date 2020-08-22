@@ -86,7 +86,7 @@
                         <img src="@Url.Content("~/images/stuff-img-03.jpg")">
                     </div>
                     <div class="team-content">
-                        <h3 class="title">عرض جديد</h3>
+                        <h3 class="title">@Html.ActionLink(" عرض جديد", "create_offer_list", null, new { @class = "title" })</h3>
                     </div>
                 </div>
             </div>
@@ -97,7 +97,7 @@
                         <img src="@Url.Content("~/images/stuff-img-04.jpg")">
                     </div>
                     <div class="team-content">
-                        <h3 class="title">إلغاء عرض</h3>
+                        <h3 class="title">@Html.ActionLink("إلغاء عرض", "delete_offer", null, new { @class = "title" })</h3>
                     </div>
                 </div>
             </div>

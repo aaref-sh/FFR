@@ -153,5 +153,26 @@ namespace FFR.Controllers
             List<meal> lst = (from x in db.meal where x.price != x.discount_price select x).ToList();
             return View(lst);
         }
+        public ActionResult create_offer_list()
+        {
+            List<meal> lst = (from x in db.meal where x.price == x.discount_price select x).ToList();
+            return View(lst);
+        }
+        public ActionResult create_offer(int id)
+        {
+            meal m = (from x in db.meal where x.Id == id select x).FirstOrDefault();
+            return View(m);
+        }
+        [HttpPost]
+        public ActionResult create_offer(int id,meal mel)
+        {
+            ViewBag.message = "تم انشاء العرض";
+            meal nm = (from x in db.meal where x.Id == mel.Id select x).FirstOrDefault();
+            nm.discount_price = mel.discount_price;
+            db.meal.AddOrUpdate(nm);
+            db.SaveChanges();
+            meal m = (from x in db.meal where x.Id == id select x).FirstOrDefault();
+            return View(m);
+        }
     }
 }
