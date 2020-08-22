@@ -25,7 +25,9 @@
           <Property Name="category_id" Type="int" Nullable="false" />
         </EntityType>
         <Association Name="FK_meal_ToCategories">
-          <End Role="categories" Type="Self.categories" Multiplicity="1" />
+          <End Role="categories" Type="Self.categories" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="meal" Type="Self.meal" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="categories">
@@ -78,7 +80,9 @@
           <NavigationProperty Name="categories" Relationship="Database1Model.FK_meal_ToCategories" FromRole="meal" ToRole="categories" />
         </EntityType>
         <Association Name="FK_meal_ToCategories">
-          <End Type="Database1Model.categories" Role="categories" Multiplicity="1" />
+          <End Type="Database1Model.categories" Role="categories" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Type="Database1Model.meal" Role="meal" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="categories">

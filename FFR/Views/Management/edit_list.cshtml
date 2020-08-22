@@ -1,26 +1,27 @@
 ﻿@model IEnumerable<FFR.Models.meal>
 
 @{
-    ViewBag.Title = "delete";
+    ViewBag.Title = "تعديل";
 }
-
 
 <!-- Start All Pages -->
 <div class="all-page-title page-breadcrumb">
     <div class="container text-center">
         <div class="row">
             <div class="col-lg-12">
-                <h1>حذف وجبة</h1>
+                <h1>قائمة الوجبات للتعديل</h1>
             </div>
         </div>
     </div>
 </div>
+<!-- End All Pages -->
+<!-- Start Stuff -->
 <div class="stuff-box">
-    <div class="container">
-        <table class="table text-right" dir="rtl">
+    <div class="container text-right" dir="rtl">
+        <table class="table">
             <tr>
                 <th>
-                    الاسم
+                    اسم الوجبة
                 </th>
                 <th>
                     السعر
@@ -30,6 +31,9 @@
                 </th>
                 <th>
                     الوصف
+                </th>
+                <th>
+                    الصمنف
                 </th>
                 <th></th>
             </tr>
@@ -50,13 +54,16 @@
                         @Html.DisplayFor(modelItem => item.discription)
                     </td>
                     <td>
-                        @Html.ActionLink("حذف", "Delete", new { id = item.Id }, new { @class = "btn btn-outline-danger" })
+                        @Html.DisplayFor(modelItem => item.categories.name)
+                    </td>
+                    <td>
+                        @Html.ActionLink("تعديل", "Edit", new { id = item.Id },new {@class="btn btn-outline-primary" })
                     </td>
                 </tr>
             }
 
         </table>
-        <div class="text-right" dir="rtl">
+        <div dir="rtl" class="text-right">
             @Html.ActionLink("العودة لصفحة الإدارة", "Index")
         </div>
     </div>

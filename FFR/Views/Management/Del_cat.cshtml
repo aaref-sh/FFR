@@ -1,0 +1,54 @@
+﻿@model IEnumerable<FFR.Models.categories>
+
+@{
+    ViewBag.Title = "حذف صنف";
+}
+
+
+<!-- Start All Pages -->
+<div class="all-page-title page-breadcrumb">
+    <div class="container text-center">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1>حذف صنف</h1>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="stuff-box">
+    <div class="container text-right" dir="rtl">
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="heading-title text-center">
+                    <h2>تنويه هام!</h2>
+                    <p>عند قيامك بحذف أي صنف سيتم حذف كافة المأكولات المدرجة ضمنه</p>
+                </div>
+            </div>
+        </div>
+        <table class="table">
+            <tr>
+                <th>
+                    اسم الصنف
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.name)
+                    </td>
+                    <td>
+                        @Html.ActionLink("حذف", "Del_cat", new { id = item.Id }, new { @class = "btn btn-outline-danger" })
+                    </td>
+                </tr>
+            }
+
+        </table>
+        <div class="text-right" dir="rtl">
+            @Html.ActionLink("العودة لصفحة الإدارة", "Index")
+        </div>
+    </div>
+</div>

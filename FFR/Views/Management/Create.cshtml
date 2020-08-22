@@ -1,0 +1,88 @@
+﻿@model FFR.Models.meal
+
+@{
+    ViewBag.Title = "إضافة وجبة";
+}
+
+
+<!-- Start All Pages -->
+<div class="all-page-title page-breadcrumb">
+    <div class="container text-center">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1>إضافة وجبة</h1>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="stuff-box">
+    <div class="container">
+        @using (Html.BeginForm("Create", "Management", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+
+        <div class="form-horizontal text-right" dir="rtl">
+            @if (ViewBag.message != null)
+            {
+            <div class="alert alert-info alert-dismissible fade show" role="alert">
+                @ViewBag.message
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            }
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                <p class="control-label col-md-2">اسم الوجبة</p>
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.name, new { htmlAttributes = new { @class = "form-control", required = "required" } })
+                    @Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <p class="control-label col-md-2">السعر</p>
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.price, new { htmlAttributes = new { @class = "form-control", required = "required" } })
+                    @Html.ValidationMessageFor(model => model.price, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <p class="control-label col-md-2">الصورة</p>
+                <div class="col-md-10">
+                    @Html.TextBox("UploadImage", "", new { type = "File", required = "required" })
+                    @Html.ValidationMessageFor(model => model.picture, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <p class="control-label col-md-2">وصف الوجبة</p>
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.discription, new { htmlAttributes = new { @class = "form-control", required = "required" } })
+                    @Html.ValidationMessageFor(model => model.discription, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <p class="control-label col-md-2">اختر الصنف</p>
+                <div class="col-md-10">
+                    @Html.DropDownList("category_id", null, htmlAttributes: new { @class = "form-control", required = "required" })
+                    @Html.ValidationMessageFor(model => model.category_id, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="إضافة" class="btn btn-success" />
+                </div>
+            </div>
+        </div>
+        }
+
+        <div dir="rtl" class="text-right">
+            @Html.ActionLink("العودة لصفحة الإدارة", "Index")
+        </div>
+    </div>
+</div>
