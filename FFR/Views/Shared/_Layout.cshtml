@@ -14,80 +14,57 @@
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @*@Styles.Render("~/Content/css")
         @Scripts.Render("~/bundles/modernizr")*@
-    <link href="@Url.Content("~/Content/custom.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/Content/bootstrap.min.css")" rel="stylesheet" type="text/css" />
-    <link href="@Url.Content("~/Content/responsive.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/Content/style.css")" rel="stylesheet" type="text/css" />
-    <link href="@Url.Content("~/Content/superslides.css")" rel="stylesheet" type="text/css" />
-    <link href="@Url.Content("~/Content/animate.css")" rel="stylesheet" type="text/css" />
-    <link href="@Url.Content("~/Content/baguetteBox.min.css")" rel="stylesheet" type="text/css" />
-    <link href="@Url.Content("~/Content/classic.css")" rel="stylesheet" type="text/css" />
-    <link href="@Url.Content("~/Content/classic.date.css")" rel="stylesheet" type="text/css" />
-    <link href="@Url.Content("~/Content/classic.time.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/responsive.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/custom.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
 </head>
 <body>
     @Html.Partial("_HeaderNav")
-    <div id="slides" class="cover-slides">
-        <ul class="slides-container">
-            <li class="text-left">
-                <img src="@Url.Content("~/images/slider-01.jpg")" alt="">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h1 class="m-b-20"><strong>Welcome To <br> Live Dinner Restaurant</strong></h1>
-                            <p class="m-b-40">
-                                See how your users experience your website in realtime or view  <br>
-                                trends to see any changes in performance over time.
-                            </p>
-                            <p><a class="btn btn-lg btn-circle btn-outline-new-white" href="#">Reservation</a></p>
-                        </div>
-                    </div>
-                </div>
-            </li>
-            <li class="text-left">
-                <img src="@Url.Content("~/images/slider-02.jpg")" alt="">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h1 class="m-b-20"><strong>Welcome To <br> Live Dinner Restaurant</strong></h1>
-                            <p class="m-b-40">
-                                See how your users experience your website in realtime or view  <br>
-                                trends to see any changes in performance over time.
-                            </p>
-                            <p><a class="btn btn-lg btn-circle btn-outline-new-white" href="#">Reservation</a></p>
-                        </div>
-                    </div>
-                </div>
-            </li>
-            <li class="text-left">
-                <img src="@Url.Content("~/images/slider-03.jpg")" alt="">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h1 class="m-b-20"><strong>Welcome To <br> Yamifood Restaurant</strong></h1>
-                            <p class="m-b-40">
-                                See how your users experience your website in realtime or view  <br>
-                                trends to see any changes in performance over time.
-                            </p>
-                            <p><a class="btn btn-lg btn-circle btn-outline-new-white" href="#">Reservation</a></p>
-                        </div>
-                    </div>
-                </div>
-            </li>
-        </ul>
-        <div class="slides-navigation">
-            <a href="#" class="next"><i class="fa fa-angle-right" aria-hidden="true"></i></a>
-            <a href="#" class="prev"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
-        </div>
-    </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
-    </div>
 
+    @RenderBody()
+    <footer class="footer-area bg-f text-right" dir="rtl">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-6">
+                    <h3>About Us</h3>
+                    <p>Integer cursus scelerisque ipsum id efficitur. Donec a dui fringilla, gravida lorem ac, semper magna. Aenean rhoncus ac lectus a interdum. Vivamus semper posuere dui.</p>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h3>Subscribe</h3>
+                    <div class="subscribe_form">
+                        <form class="subscribe_form">
+                            <input name="EMAIL" id="subs-email" class="form_input" placeholder="Email Address..." type="email">
+                            <button type="submit" class="submit">SUBSCRIBE</button>
+                            <div class="clearfix"></div>
+                        </form>
+                    </div>
+                    <ul class="list-inline f-social">
+                        <li class="list-inline-item"><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                        <li class="list-inline-item"><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                        <li class="list-inline-item"><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+                        <li class="list-inline-item"><a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
+                        <li class="list-inline-item"><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h3>Contact information</h3>
+                    <p class="lead">Ipsum Street, Lorem Tower, MO, Columbia, 508000</p>
+                    <p class="lead"><a href="#">+01 2000 800 9999</a></p>
+                    <p><a href="#"> info@admin.com</a></p>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h3>فروعنا</h3>
+                    <p><span class="text-color">حماه - حي الشريعة: </span>2356985</p>
+                    <p><span class="text-color">حماه - حي النصر :</span> 2314569</p>
+                    <p><span class="text-color">حمص - الدبلان :</span> 2555247</p>
+                    <p><span class="text-color">حمص - المخيم :</span> 3255565</p>
+                </div>
+            </div>
+        </div>
+
+    </footer>
     @*@Scripts.Render("~/bundles/jquery")
         @Scripts.Render("~/bundles/bootstrap")
         @RenderSection("scripts", required: false)*@

@@ -1,31 +1,167 @@
-﻿@{
+﻿
+@model IEnumerable<FFR.Models.meal>
+@{
     ViewBag.Title = "Home Page";
+    IEnumerable<FFR.Models.categories> cats = ViewBag.cats;
 }
-
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+<div id="slides" class="cover-slides" dir="rtl">
+    <ul class="slides-container">
+        <li class="text-right">
+            <img src="@Url.Content("~/images/slider-01.jpg")" alt="">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1 class="m-b-20"><strong>Welcome To <br> Live Dinner Restaurant</strong></h1>
+                        <p class="m-b-40">
+                            See how your users experience your website in realtime or view  <br>
+                            trends to see any changes in performance over time.
+                        </p>
+                        <p><a class="btn btn-lg btn-circle btn-outline-new-white" href="#">Reservation</a></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="text-right">
+            <img src="@Url.Content("~/images/slider-02.jpg")" alt="">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1 class="m-b-20"><strong>Welcome To <br> Live Dinner Restaurant</strong></h1>
+                        <p class="m-b-40">
+                            See how your users experience your website in realtime or view  <br>
+                            trends to see any changes in performance over time.
+                        </p>
+                        <p><a class="btn btn-lg btn-circle btn-outline-new-white" href="#">Reservation</a></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="text-right">
+            <img src="@Url.Content("~/images/slider-03.jpg")" alt="">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1 class="m-b-20"><strong>Welcome To <br> Yamifood Restaurant</strong></h1>
+                        <p class="m-b-40">
+                            See how your users experience your website in realtime or view  <br>
+                            trends to see any changes in performance over time.
+                        </p>
+                        <p><a class="btn btn-lg btn-circle btn-outline-new-white" href="#">Reservation</a></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+    </ul>
+    <div class="slides-navigation">
+        <a href="#" class="next"><i class="fa fa-angle-right" aria-hidden="true"></i></a>
+        <a href="#" class="prev"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
+    </div>
 </div>
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+
+<!-- Start Menu -->
+<div class="menu-box">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="heading-title text-center">
+                    <h2>قائمة الوجبات</h2>
+                    <p>يمكنك استعراض الوجبات وأسعارها كما يمكنك تحديد أي قسم تريد من على اليمين</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row inner-menu-box text-right" dir="rtl">
+            <div class="col-3">
+                <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                    <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">الكل</a>
+                     @foreach (var cat in cats)
+                    {
+                        <a class="nav-link" id="v-pills-@cat.Id-tab" data-toggle="pill" href="#v-pills-@cat.Id" role="tab" aria-controls="v-pills-@cat.Id" aria-selected="false">@cat.name</a>
+
+                    }
+                </div>
+            </div>
+
+            <div class="col-9">
+                <div class="tab-content" id="v-pills-tabContent">
+                    <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                        <div class="row">
+                            @foreach(var item in Model)
+                                    {
+                            <div class="col-lg-4 col-md-6 special-grid">
+                                <div class="gallery-single fix">
+                                    <img src="@Url.Content("~/pics/"+item.picture)" class="img-fluid" alt="Image">
+                                    <div class="why-text">
+                                        @Html.ActionLink(item.name , "details", new { id = item.Id }, new { @class = "act" })
+                                        <p></p>
+                                        <p style="font-size: 20px; display: inline;"> @item.discount_price ل.س</p>
+                                        @if (item.discount_price != item.price)
+                                        {
+                                            <p style="font-size: 17px; color: #e4e4e4; text-decoration: line-through; display: inline;"> @item.price ل.س</p>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                            }
+                        </div>
+
+                    </div>
+                    @foreach (var cat in cats)
+                    {
+                    <div class="tab-pane fade" id="v-pills-@cat.Id" role="tabpanel" aria-labelledby="v-pills-@cat.Id-tab">
+                        <div class="row">
+                            @foreach (var item in cat.meal)
+                            {
+                                <div class="col-lg-4 col-md-6 special-grid drinks">
+                                    <div class="gallery-single fix">
+                                        <img src="@Url.Content("~/pics/" + item.picture)" class="img-fluid" alt="Image">
+                                        <div class="why-text">
+                                            @Html.ActionLink(item.name, "details", new { id = item.Id }, new { @class = "act" })
+                                            <p></p>
+                                            <p style="font-size: 20px; display: inline;"> @item.discount_price ل.س</p>
+                                            @if (item.discount_price != item.price)
+                                            {
+                                                <p style="font-size: 17px; color: #e4e4e4; text-decoration: line-through; display: inline;"> @item.price ل.س</p>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    }
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>
+<!-- End Menu -->
+<!-- Start Gallery -->
+<div class="gallery-box">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="heading-title text-center">
+                    <h2>معرض الصور</h2>
+                    <p>نضع بين أيديكم هذه الصور لأشهى الأطباق لدينا</p>
+                </div>
+            </div>
+        </div>
+        <div class="tz-gallery">
+            <div class="row">
+                @foreach (var item in Model)
+                {
+                    string pic = "~/pics/" + item.picture;
+                    <div class="col-sm-12 col-md-4 col-lg-4">
+                        <a class="lightbox" href="@Url.Content(pic)">
+                            <img class="img-fluid" src="@Url.Content(pic)" alt="Gallery Images">
+                        </a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Gallery -->

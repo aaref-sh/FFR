@@ -1,0 +1,39 @@
+﻿@model FFR.Models.meal
+
+@{
+    ViewBag.Title = "details";
+    string pic = "~/pics/" + Model.picture;
+}
+<!-- Start header -->
+<div class="all-page-title page-breadcrumb">
+    <div class="container text-center">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1>@Model.name</h1>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End header -->
+<div class="about-section-box">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 col-md-6 text-center">
+                <div class="inner-column text-right" dir="rtl">
+                    <h1>أهلاً بكم في <span>مطعم المهندسين</span></h1>
+                    <h2>وجبة @Model.name </h2>
+                    <p>السعر: @Model.discount_price ل.س</p>
+                    @if (Model.discount_price != Model.price)
+                    {
+                        <p>السعر قبل الحسم: @Model.price ل.س</p>
+                    }
+                    <p> @Model.discription </p>
+                    <a class="btn btn-lg btn-circle btn-outline-new-white" href="#">Reservation</a>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6">
+                <img src="@Url.Content(pic)" alt="" class="img-fluid">
+            </div>
+        </div>
+    </div>
+</div>

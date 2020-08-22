@@ -1,0 +1,60 @@
+﻿@model IEnumerable<FFR.Models.meal>
+
+@{
+    ViewBag.Title = "delete";
+}
+
+
+<!-- Start All Pages -->
+<div class="all-page-title page-breadcrumb">
+    <div class="container text-center">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1>حذف وجبة</h1>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="stuff-box">
+    <div class="container">
+        <table class="table text-right" dir="rtl">
+            <tr>
+                <th>
+                    الاسم
+                </th>
+                <th>
+                    السعر
+                </th>
+                <th>
+                    سعر الخصم
+                </th>
+                <th>
+                    الوصف
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.price)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.discount_price)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.discription)
+                    </td>
+                    <td>
+                        @Html.ActionLink("حذف", "Delete", new { id = item.Id },new {@class ="btn btn-outline-danger" })
+                    </td>
+                </tr>
+            }
+
+        </table>
+     </div>
+</div>
