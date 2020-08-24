@@ -8,6 +8,8 @@
         <EntityTypeShape EntityType="Database1Model.categories" Width="1.5" PointX="0.75" PointY="1.375" />
         <EntityTypeShape EntityType="Database1Model.meal" Width="1.5" PointX="3" PointY="1" />
         <AssociationConnector Association="Database1Model.FK_meal_ToCategories" />
+        <EntityTypeShape EntityType="Database1Model.customer" Width="1.5" PointX="0.75" PointY="4.875" />
+        <AssociationConnector Association="Database1Model.favorit" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

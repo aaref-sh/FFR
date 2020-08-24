@@ -27,5 +27,6 @@ namespace FFR.Models
     
         public virtual DbSet<categories> categories { get; set; }
         public virtual DbSet<meal> meal { get; set; }
+        public virtual DbSet<customer> customer { get; set; }
     }
 }

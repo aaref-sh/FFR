@@ -36,5 +36,10 @@ namespace FFR.Controllers
 
             return View();
         }
+        public ActionResult login_signup(FormCollection col)
+        {
+            
+            return View();
+        }
     }
 }

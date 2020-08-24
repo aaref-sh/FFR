@@ -12,24 +12,21 @@ namespace FFR.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class meal
+    public partial class customer
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public meal()
+        public customer()
         {
-            this.customer = new HashSet<customer>();
+            this.meal = new HashSet<meal>();
         }
     
         public int Id { get; set; }
         public string name { get; set; }
-        public Nullable<double> price { get; set; }
-        public Nullable<double> discount_price { get; set; }
-        public string picture { get; set; }
-        public string discription { get; set; }
-        public int category_id { get; set; }
+        public string address { get; set; }
+        public string phone { get; set; }
+        public string password { get; set; }
     
-        public virtual categories categories { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<customer> customer { get; set; }
+        public virtual ICollection<meal> meal { get; set; }
     }
 }

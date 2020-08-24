@@ -12,6 +12,26 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="name" Type="nvarchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="customer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="100" />
+          <Property Name="password" Type="nvarchar" MaxLength="100" />
+          <Property Name="address" Type="nvarchar(max)" />
+          <Property Name="phone" Type="nvarchar" MaxLength="25" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'C:\USERS\MUHAMMAD\SOURCE\REPOS\FFR\FFR\APP_DATA\DATABASE1.MDF.dbo.favorit' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="favorit">
+          <Key>
+            <PropertyRef Name="customer_id" />
+            <PropertyRef Name="meal_id" />
+          </Key>
+          <Property Name="customer_id" Type="int" Nullable="false" />
+          <Property Name="meal_id" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="meal">
           <Key>
             <PropertyRef Name="Id" />
@@ -24,6 +44,34 @@
           <Property Name="discription" Type="nvarchar" MaxLength="500" />
           <Property Name="category_id" Type="int" Nullable="false" />
         </EntityType>
+        <Association Name="FK_favorit_Tocustomer">
+          <End Role="customer" Type="Self.customer" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="favorit" Type="Self.favorit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="customer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="favorit">
+              <PropertyRef Name="customer_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_favorit_Tomeal">
+          <End Role="meal" Type="Self.meal" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="favorit" Type="Self.favorit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="meal">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="favorit">
+              <PropertyRef Name="meal_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_meal_ToCategories">
           <End Role="categories" Type="Self.categories" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -40,7 +88,22 @@
         </Association>
         <EntityContainer Name="Database1ModelStoreContainer">
           <EntitySet Name="categories" EntityType="Self.categories" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="customer" EntityType="Self.customer" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="meal" EntityType="Self.meal" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="favorit" EntityType="Self.favorit" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [favorit].[customer_id] AS [customer_id], 
+    [favorit].[meal_id] AS [meal_id]
+    FROM [dbo].[favorit] AS [favorit]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_favorit_Tocustomer" Association="Self.FK_favorit_Tocustomer">
+            <End Role="customer" EntitySet="customer" />
+            <End Role="favorit" EntitySet="favorit" />
+          </AssociationSet>
+          <AssociationSet Name="FK_favorit_Tomeal" Association="Self.FK_favorit_Tomeal">
+            <End Role="meal" EntitySet="meal" />
+            <End Role="favorit" EntitySet="favorit" />
+          </AssociationSet>
           <AssociationSet Name="FK_meal_ToCategories" Association="Self.FK_meal_ToCategories">
             <End Role="categories" EntitySet="categories" />
             <End Role="meal" EntitySet="meal" />
@@ -55,6 +118,11 @@
           <EntitySet Name="meal" EntityType="Database1Model.meal" />
           <AssociationSet Name="FK_meal_ToCategories" Association="Database1Model.FK_meal_ToCategories">
             <End Role="categories" EntitySet="categories" />
+            <End Role="meal" EntitySet="meal" />
+          </AssociationSet>
+          <EntitySet Name="customer" EntityType="Database1Model.customer" />
+          <AssociationSet Name="favorit" Association="Database1Model.favorit">
+            <End Role="customer" EntitySet="customer" />
             <End Role="meal" EntitySet="meal" />
           </AssociationSet>
         </EntityContainer>
@@ -78,6 +146,7 @@
           <Property Name="discription" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="category_id" Type="Int32" Nullable="false" />
           <NavigationProperty Name="categories" Relationship="Database1Model.FK_meal_ToCategories" FromRole="meal" ToRole="categories" />
+          <NavigationProperty Name="customer" Relationship="Database1Model.favorit" FromRole="meal" ToRole="customer" />
         </EntityType>
         <Association Name="FK_meal_ToCategories">
           <End Type="Database1Model.categories" Role="categories" Multiplicity="1">
@@ -92,6 +161,21 @@
               <PropertyRef Name="category_id" />
             </Dependent>
           </ReferentialConstraint>
+        </Association>
+        <EntityType Name="customer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="phone" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="meal" Relationship="Database1Model.favorit" FromRole="customer" ToRole="meal" />
+          <Property Name="password" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="favorit">
+          <End Type="Database1Model.customer" Role="customer" Multiplicity="*" />
+          <End Type="Database1Model.meal" Role="meal" Multiplicity="*" />
         </Association>
       </Schema>
     </edmx:ConceptualModels>
@@ -120,6 +204,25 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="customer">
+            <EntityTypeMapping TypeName="Database1Model.customer">
+              <MappingFragment StoreEntitySet="customer">
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="favorit" TypeName="Database1Model.favorit" StoreEntitySet="favorit">
+            <EndProperty Name="meal">
+              <ScalarProperty Name="Id" ColumnName="meal_id" />
+            </EndProperty>
+            <EndProperty Name="customer">
+              <ScalarProperty Name="Id" ColumnName="customer_id" />
+            </EndProperty>
+          </AssociationSetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

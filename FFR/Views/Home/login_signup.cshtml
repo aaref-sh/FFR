@@ -1,0 +1,90 @@
+﻿@model FFR.Models.customer
+
+@{
+    ViewBag.Title = "login_signup";
+}
+
+<!-- Start header -->
+<div class="all-page-title page-breadcrumb">
+    <div class="container text-center">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1>تسجيل دخول - تسجيل حساب</h1>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End header -->
+<div class="about-section-box text-right" dir="rtl">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-1"></div>
+            <div class="col-sm-11">
+
+                <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">تسجيل دخول</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">تسجيل حساب</a>
+                    </li>
+                </ul>
+                <div class="tab-content" id="pills-tabContent">
+                    <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                        ...
+                    </div>
+                    <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+                        @using (Html.BeginForm())
+                        {
+                            @Html.AntiForgeryToken()
+
+                            <div class="form-horizontal">
+                                <div class="form-group">
+                                    <p class="control-label col-md-2">الاسم</p>
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.name, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <p class="control-label col-md-2">العنوان</p>
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.address, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.address, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <p class="control-label col-md-2">رقم الهاتف</p>
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.phone, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.phone, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <p class="control-label col-md-2">كلمة المرور</p>
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.password, new { htmlAttributes = new { @class = "form-control", type = "password" } })
+                                        @Html.ValidationMessageFor(model => model.password, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-offset-2 col-md-10">
+                                        <input type="submit" value="تسجيل الحساب" class="btn btn-outline-success" />
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        <div>
+                            @Html.ActionLink("العودة للصفحة الرئيسية", "Index")
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

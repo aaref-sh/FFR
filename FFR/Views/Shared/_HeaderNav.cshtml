@@ -11,12 +11,13 @@
             <div class="collapse navbar-collapse" id="navbars-rs-food">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
-                        @Html.ActionLink("الرئيسية", "Index","Home", null,new { @class = "nav-link" } )
+                        @Html.ActionLink("الرئيسية", "Index", "Home", null, new { @class = "nav-link" })
 
                     </li>
                     <li class="nav-item"><a class="nav-link" href="menu.html">القائمة</a></li>
                     <li class="nav-item"><a class="nav-link" href="about.html">طلب</a></li>
                     <li class="nav-item"><a class="nav-link" href="about.html">تسجيل الدخول</a></li>
+                    <li class="nav-item">@Html.ActionLink("الإدارة", "Index", "Management", null, new { @class = "nav-link" })</li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="dropdown-a" data-toggle="dropdown">الوجبات</a>
                         <div class="dropdown-menu" aria-labelledby="dropdown-a">

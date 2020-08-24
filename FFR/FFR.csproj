@@ -149,6 +149,9 @@
     <Compile Include="Models\categories.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\customer.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\meal.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -288,6 +291,7 @@
     <Content Include="Views\Management\Edit.cshtml" />
     <Content Include="Views\Management\create_offer_list.cshtml" />
     <Content Include="Views\Management\create_offer.cshtml" />
+    <Content Include="Views\Home\login_signup.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
