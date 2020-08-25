@@ -104,24 +104,30 @@ namespace FFR.Controllers
             }
             return RedirectToAction("Index","Home",null);
         }
-        public ActionResult request(int? id,FormCollection col)
+        
+        public ActionResult request()
         {
-            if (id != null)
-            {
-                int user = Convert.ToInt32(Session["id"]);
-                request req = new request();
-                req.center_id = Convert.ToInt32(col[1]);
-                req.customer_id = user;
-                req.meal_id = id;
-                db.requests.Add(req);
-                db.SaveChanges();
-                ViewBag.message = "تم الطلب";
-            }
-            List<request> reqs = db.requests.ToList();
-            ViewBag.reqs = reqs;
+            ViewBag.center_id = new SelectList(db.centers, "Id", "name");
+            ViewBag.reqs = db.requests.ToList();
             ViewBag.cats = db.categories.ToList();
-            List<meal> lst = db.meals.ToList();
-            return View(lst);
+            return View(db.meals.ToList());
+        }
+        [HttpPost]
+        public ActionResult request(int id,string list)
+        {
+            int user = Convert.ToInt32(Session["id"]);
+            request req = new request();
+            req.center_id = Convert.ToInt32(list);
+            req.customer_id = user;
+            req.meal_id = id;
+            db.requests.Add(req);
+            db.SaveChanges();
+            ViewBag.message = "تم الطلب";
+        
+            ViewBag.center_id = new SelectList(db.centers, "Id", "name");
+            ViewBag.reqs = db.requests.ToList();
+            ViewBag.cats = db.categories.ToList();
+            return View(db.meals.ToList());
         }
     }
 }

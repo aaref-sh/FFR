@@ -54,7 +54,7 @@
                         @Html.DisplayFor(modelItem => item.discription)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.categories.name)
+                        @Html.DisplayFor(modelItem => item.category.name)
                     </td>
                     <td>
                         @Html.ActionLink("إلغاء العرض", "delete_offer", new { id = item.Id }, new { @class = "btn btn-warning" })

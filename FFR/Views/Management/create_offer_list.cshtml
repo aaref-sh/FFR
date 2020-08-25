@@ -48,7 +48,7 @@
                         @Html.DisplayFor(modelItem => item.discription)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.categories.name)
+                        @Html.DisplayFor(modelItem => item.category.name)
                     </td>
                     <td>
                         @Html.ActionLink("إنشاء عرض", "Create_offer", new { id = item.Id })

@@ -3,3 +3,8 @@ a.act {
     color: #c1e1ff;
     font-size: 18px;
 }
+a {
+    color: #010101;
+    text-decoration: none;
+    background-color: transparent;
+}

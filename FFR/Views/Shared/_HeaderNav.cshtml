@@ -20,7 +20,6 @@
 
                     </li>
                     <li class="nav-item"><a class="nav-link" href="menu.html">القائمة</a></li>
-                    <li class="nav-item"><a class="nav-link" href="about.html">طلب</a></li>
                     @if (signed == 0)
                     {
                         <li class="nav-item">@Html.ActionLink("تسجيل الدخول", "login_signup", "Home", null, new { @class = "nav-link" })</li>
@@ -29,6 +28,7 @@
                     {
                         <li class="nav-item">@Html.ActionLink("تسجيل خروج", "Index", "Home", new { id = 1 }, new { @class = "nav-link" })</li>
                         <li class="nav-item">@Html.ActionLink("المفضلة", "favorit", "Home", null, new { @class = "nav-link" })</li>
+                        <li class="nav-item">@Html.ActionLink("طلب", "request", "Home", null, new { @class = "nav-link" })</li>
 
                     }
                     <li class="nav-item">@Html.ActionLink("الإدارة", "Index", "Management", null, new { @class = "nav-link" })</li>
