@@ -17,7 +17,8 @@ namespace FFR.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public meal()
         {
-            this.customer = new HashSet<customer>();
+            this.favorits = new HashSet<favorit>();
+            this.requests = new HashSet<request>();
         }
     
         public int Id { get; set; }
@@ -28,8 +29,10 @@ namespace FFR.Models
         public string discription { get; set; }
         public int category_id { get; set; }
     
-        public virtual categories categories { get; set; }
+        public virtual category category { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<customer> customer { get; set; }
+        public virtual ICollection<favorit> favorits { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<request> requests { get; set; }
     }
 }

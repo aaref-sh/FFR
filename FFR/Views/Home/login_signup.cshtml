@@ -1,7 +1,7 @@
 ﻿@model FFR.Models.customer
 
 @{
-    ViewBag.Title = "login_signup";
+    ViewBag.Title = "تسجيل دخول - تسجيل حساب";
 }
 
 <!-- Start header -->
@@ -17,23 +17,59 @@
 <!-- End header -->
 <div class="about-section-box text-right" dir="rtl">
     <div class="container">
-        <div class="row">
-            <div class="col-sm-1"></div>
-            <div class="col-sm-11">
+        @if (ViewBag.message != null)
+        {
+            <div class="alert alert-info alert-dismissible fade show" role="alert">
+                @ViewBag.message
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        }
 
-                <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">تسجيل دخول</a>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">تسجيل حساب</a>
-                    </li>
-                </ul>
-                <div class="tab-content" id="pills-tabContent">
-                    <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
-                        ...
+        <div class="row inner-menu-box">
+            <div class="col-3">
+                <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                    <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">تسجيل دخول</a>
+                    <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">تسجيل حساب</a>
+                </div>
+            </div>
+
+            <div class="col-9">
+                <div class="tab-content" id="v-pills-tabContent">
+
+                    <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                        @using (Html.BeginForm())
+                        {
+                            @Html.AntiForgeryToken()
+
+                            <div class="form-horizontal">
+                                <div class="form-group">
+                                    <p class="control-label col-md-2">الاسم</p>
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.name, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <p class="control-label col-md-2">كلمة المرور</p>
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.password, new { htmlAttributes = new { @class = "form-control", type = "password" } })
+                                        @Html.ValidationMessageFor(model => model.password, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-offset-2 col-md-10">
+                                        <input name="submit" type="submit" id="login" value="تسجيل الدخول" class="btn btn-outline-success" />
+                                    </div>
+                                </div>
+                            </div>
+                        }
                     </div>
-                    <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+
+                    <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
                         @using (Html.BeginForm())
                         {
                             @Html.AntiForgeryToken()
@@ -58,7 +94,7 @@
                                 <div class="form-group">
                                     <p class="control-label col-md-2">رقم الهاتف</p>
                                     <div class="col-md-10">
-                                        @Html.EditorFor(model => model.phone, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.EditorFor(model => model.phone, new { htmlAttributes = new { @class = "form-control", type = "tel" } })
                                         @Html.ValidationMessageFor(model => model.phone, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -73,17 +109,15 @@
 
                                 <div class="form-group">
                                     <div class="col-md-offset-2 col-md-10">
-                                        <input type="submit" value="تسجيل الحساب" class="btn btn-outline-success" />
+                                        <input type="submit" value="تسجيل الحساب" name="submit" id="signup" class="btn btn-outline-success" />
                                     </div>
                                 </div>
                             </div>
                         }
-                        <div>
-                            @Html.ActionLink("العودة للصفحة الرئيسية", "Index")
-                        </div>
                     </div>
-                </div>
 
+                    @Html.ActionLink("العودة للصفحة الرئيسية", "Index")
+                </div>
             </div>
         </div>
     </div>

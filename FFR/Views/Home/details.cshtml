@@ -3,6 +3,9 @@
 @{
     ViewBag.Title = "details";
     string pic = "~/pics/" + Model.picture;
+    bool stat = ViewBag.stat;
+    bool logged = false;
+    if (Session["id"] != null) { logged = true; }
 }
 <!-- Start header -->
 <div class="all-page-title page-breadcrumb">
@@ -23,12 +26,23 @@
                     <h1>أهلاً بكم في <span>مطعم المهندسين</span></h1>
                     <h2>وجبة @Model.name </h2>
                     <p>السعر: @Model.discount_price ل.س</p>
+
                     @if (Model.discount_price != Model.price)
                     {
                         <p>السعر قبل الحسم: @Model.price ل.س</p>
                     }
                     <p> @Model.discription </p>
-                    <a class="btn btn-lg btn-circle btn-outline-new-white" href="#">Reservation</a>
+                    @if (logged)
+                    {
+                        if (!stat)
+                        {
+                            @Html.ActionLink("إضافة إلى المفضلة ❤", "details", new { add = 1 }, new { @class = "btn btn-lg btn-circle btn-outline-new-white" })
+                        }
+                        else
+                        {
+                            @Html.ActionLink("إزالة من المفضلة ❌", "details", new { add = 1 }, new { @class = "btn btn-lg btn-circle btn-outline-new-white" })
+                        }
+                    }
                 </div>
             </div>
             <div class="col-lg-6 col-md-6">

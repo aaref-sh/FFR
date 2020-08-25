@@ -25,8 +25,11 @@ namespace FFR.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<categories> categories { get; set; }
-        public virtual DbSet<meal> meal { get; set; }
-        public virtual DbSet<customer> customer { get; set; }
+        public virtual DbSet<category> categories { get; set; }
+        public virtual DbSet<customer> customers { get; set; }
+        public virtual DbSet<favorit> favorits { get; set; }
+        public virtual DbSet<meal> meals { get; set; }
+        public virtual DbSet<request> requests { get; set; }
+        public virtual DbSet<center> centers { get; set; }
     }
 }

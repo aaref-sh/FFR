@@ -2,7 +2,7 @@
 @model IEnumerable<FFR.Models.meal>
 @{
     ViewBag.Title = "Home Page";
-    IEnumerable<FFR.Models.categories> cats = ViewBag.cats;
+    IEnumerable<FFR.Models.category> cats = ViewBag.cats;
 }
 <div id="slides" class="cover-slides" dir="rtl">
     <ul class="slides-container">
@@ -111,7 +111,7 @@
                     {
                         <div class="tab-pane fade" id="v-pills-@cat.Id" role="tabpanel" aria-labelledby="v-pills-@cat.Id-tab">
                             <div class="row">
-                                @foreach (var item in cat.meal)
+                                @foreach (var item in cat.meals)
                                 {
                                     <div class="col-lg-4 col-md-6 special-grid drinks">
                                         <div class="gallery-single fix">

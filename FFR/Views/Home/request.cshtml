@@ -1,0 +1,121 @@
+﻿@model IEnumerable<FFR.Models.meal>
+
+@{
+
+    ViewBag.Title = "الطلب";
+    IEnumerable<FFR.Models.category> cats = ViewBag.cats;
+}
+
+<!-- Start header -->
+<div class="all-page-title page-breadcrumb">
+    <div class="container text-center">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1>صفحة الطلب</h1>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End header -->
+<div class="about-section-box">
+    <div class="container text-lg-right"dir="rtl">
+
+            <div class="row inner-menu-box">
+                    <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="horizontal">
+                        <a class="nav-link active" style="display:inline" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">طلب وجبة</a>
+                        <a class="nav-link" style="display:inline" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">طلباتي المقدمة</a>
+                    </div>
+
+                    <div class="tab-content" id="v-pills-tabContent">
+                        <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                            <div class="row">
+
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="heading-title text-center">
+                                            <h2>قائمة الوجبات</h2>
+                                            <p>يمكنك طلب الوجبة عبر الضغط على زر "طلب" الذي يظهر عند تحديد الوجبة</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row inner-menu-box" dir="rtl">
+                                    <div class="col-3">
+                                        <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                                            <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">الكل</a>
+                                            @foreach (var cat in cats)
+                                            {
+                                                <a class="nav-link" id="v-pills-@cat.Id-tab" data-toggle="pill" href="#v-pills-@cat.Id" role="tab" aria-controls="v-pills-@cat.Id" aria-selected="false">@cat.name</a>
+
+                                            }
+                                        </div>
+                                    </div>
+
+                                    <div class="col-9">
+                                        <div class="tab-content" id="v-pills-tabContent">
+                                            <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                                                <div class="row">
+                                                    @foreach (var item in Model)
+                                                    {
+                                                        <div class="col-lg-4 col-md-6 special-grid">
+                                                            <div class="gallery-single fix">
+                                                                <img src="@Url.Content("~/pics/"+item.picture)" class="img-fluid" alt="Image">
+                                                                <div class="why-text">
+                                                                    @Html.ActionLink(item.name, "details", new { id = item.Id }, new { @class = "act" })
+                                                                    <p></p>
+                                                                    <p style="font-size: 20px; display: inline;"> @item.discount_price ل.س</p>
+                                                                    @if (item.discount_price != item.price)
+                                                                    {
+                                                                        <p style="font-size: 17px; color: #e4e4e4; text-decoration: line-through; display: inline;"> @item.price ل.س</p>
+                                                                    }
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                </div>
+
+                                            </div>
+                                            @foreach (var cat in cats)
+                                            {
+                                                <div class="tab-pane fade" id="v-pills-@cat.Id" role="tabpanel" aria-labelledby="v-pills-@cat.Id-tab">
+                                                    <div class="row">
+                                                        @foreach (var item in cat.meals)
+                                                        {
+                                                            <div class="col-lg-4 col-md-6 special-grid drinks">
+                                                                <div class="gallery-single fix">
+                                                                    <img src="@Url.Content("~/pics/" + item.picture)" class="img-fluid" alt="Image">
+                                                                    <div class="why-text">
+                                                                        @Html.ActionLink(item.name, "details", new { id = item.Id }, new { @class = "act" })
+                                                                        <p></p>
+                                                                        <p style="font-size: 20px; display: inline;"> @item.discount_price ل.س</p>
+                                                                        @if (item.discount_price != item.price)
+                                                                        {
+                                                                            <p style="font-size: 17px; color: #e4e4e4; text-decoration: line-through; display: inline;"> @item.price ل.س</p>
+                                                                        }
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+                            <div class="row">
+                                    
+                            </div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+
+    </div>
+</div>

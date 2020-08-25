@@ -23,10 +23,10 @@ namespace FFR.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult Add(categories cat)
+        public ActionResult Add(category cat)
         {
             if (cat == null) return View();
-            List<categories> l = (from x in db.categories where x.name == cat.name.Trim() select x).ToList();
+            List<category> l = (from x in db.categories where x.name == cat.name.Trim() select x).ToList();
             if(l.Count > 0)
             {
                 ViewBag.message = "هذا الصنف موجود بالفعل";
@@ -62,7 +62,7 @@ namespace FFR.Controllers
             }
             else { return View(); }
             string mealname = col[1].Trim();
-            List<meal> l = (from x in db.meal where x.name == mealname select x).ToList();
+            List<meal> l = (from x in db.meals where x.name == mealname select x).ToList();
             if(l.Count > 0)
             {
                 ViewBag.message = "هنالك وجبة بنفس الاسم" ;
@@ -75,7 +75,7 @@ namespace FFR.Controllers
             m.discount_price = m.price;
             m.category_id = Convert.ToInt32(col[4].Trim());
             m.discription = col[3].Trim();
-            db.meal.Add(m);
+            db.meals.Add(m);
             db.SaveChanges();
             ViewBag.message = "تم إضافة الوجبة" ;
             return View();
@@ -84,11 +84,11 @@ namespace FFR.Controllers
         {
             if(id != null)
             {
-               System.IO.File.Delete(Server.MapPath("~/pics/") + (from x in db.meal where x.Id == id select x.picture).FirstOrDefault());
-                db.meal.Remove((from x in db.meal where x.Id == id select x).FirstOrDefault());
+               System.IO.File.Delete(Server.MapPath("~/pics/") + (from x in db.meals where x.Id == id select x.picture).FirstOrDefault());
+                db.meals.Remove((from x in db.meals where x.Id == id select x).FirstOrDefault());
                 db.SaveChanges();
             }
-            List<meal> lst = (from x in db.meal select x).ToList();
+            List<meal> lst = (from x in db.meals select x).ToList();
             return View(lst);
 
         }
@@ -99,20 +99,20 @@ namespace FFR.Controllers
                 db.categories.Remove((from x in db.categories where x.Id == id select x).FirstOrDefault());
                 db.SaveChanges();
             }
-            List<categories> lst = (from x in db.categories select x).ToList();
+            List<category> lst = (from x in db.categories select x).ToList();
             return View(lst);
 
         }
 
         public ActionResult Edit_list()
         {
-            List<meal>l = (from x in db.meal select x).ToList();
+            List<meal>l = (from x in db.meals select x).ToList();
             return View(l);
         }
         [HttpGet]
         public ActionResult Edit(int id)
         {
-            meal m = (from x in db.meal where x.Id == id select x).FirstOrDefault();
+            meal m = (from x in db.meals where x.Id == id select x).FirstOrDefault();
             ViewBag.category_id = new SelectList(db.categories, "Id", "name");
             return View(m);
         }
@@ -120,11 +120,11 @@ namespace FFR.Controllers
         public ActionResult Edit(int id,meal mel,HttpPostedFileBase UploadImage)
         {
             if(UploadImage == null)
-                mel.picture = (from x in db.meal where x.Id == mel.Id select x.picture).FirstOrDefault();
+                mel.picture = (from x in db.meals where x.Id == mel.Id select x.picture).FirstOrDefault();
             
             else
             {
-                System.IO.File.Delete(Server.MapPath("~/pics/") + (from x in db.meal where x.Id == id select x.picture).FirstOrDefault());
+                System.IO.File.Delete(Server.MapPath("~/pics/") + (from x in db.meals where x.Id == id select x.picture).FirstOrDefault());
                 if (UploadImage.ContentLength > 0)
                 {
                     string filename = unique() + Path.GetExtension(UploadImage.FileName);
@@ -133,10 +133,10 @@ namespace FFR.Controllers
                     mel.picture = filename;
                 }
             }
-            db.meal.AddOrUpdate(mel);
+            db.meals.AddOrUpdate(mel);
             db.SaveChanges();
             ViewBag.category_id = new SelectList(db.categories, "Id", "name");
-            meal m = (from x in db.meal where x.Id == id select x).FirstOrDefault();
+            meal m = (from x in db.meals where x.Id == id select x).FirstOrDefault();
             ViewBag.message = "تم تحديث بيانات الوجبة";
             return View(m);
         }
@@ -144,34 +144,34 @@ namespace FFR.Controllers
         {
             if (id != null)
             {
-                meal m = (from x in db.meal where x.Id == id select x).FirstOrDefault();
+                meal m = (from x in db.meals where x.Id == id select x).FirstOrDefault();
                 m.discount_price = m.price;
-                db.meal.AddOrUpdate(m);
+                db.meals.AddOrUpdate(m);
                 db.SaveChanges();
                 
             }
-            List<meal> lst = (from x in db.meal where x.price != x.discount_price select x).ToList();
+            List<meal> lst = (from x in db.meals where x.price != x.discount_price select x).ToList();
             return View(lst);
         }
         public ActionResult create_offer_list()
         {
-            List<meal> lst = (from x in db.meal where x.price == x.discount_price select x).ToList();
+            List<meal> lst = (from x in db.meals where x.price == x.discount_price select x).ToList();
             return View(lst);
         }
         public ActionResult create_offer(int id)
         {
-            meal m = (from x in db.meal where x.Id == id select x).FirstOrDefault();
+            meal m = (from x in db.meals where x.Id == id select x).FirstOrDefault();
             return View(m);
         }
         [HttpPost]
         public ActionResult create_offer(int id,meal mel)
         {
             ViewBag.message = "تم انشاء العرض";
-            meal nm = (from x in db.meal where x.Id == mel.Id select x).FirstOrDefault();
+            meal nm = (from x in db.meals where x.Id == mel.Id select x).FirstOrDefault();
             nm.discount_price = mel.discount_price;
-            db.meal.AddOrUpdate(nm);
+            db.meals.AddOrUpdate(nm);
             db.SaveChanges();
-            meal m = (from x in db.meal where x.Id == id select x).FirstOrDefault();
+            meal m = (from x in db.meals where x.Id == id select x).FirstOrDefault();
             return View(m);
         }
     }

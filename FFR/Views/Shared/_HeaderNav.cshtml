@@ -1,4 +1,9 @@
-﻿<!-- Start header -->
+﻿@{ 
+    int signed = 0;
+    if (Session["id"] != null) { signed = Convert.ToInt32(Session["id"]); }
+}
+
+<!-- Start header -->
 <header class="top-navbar">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container">
@@ -16,15 +21,19 @@
                     </li>
                     <li class="nav-item"><a class="nav-link" href="menu.html">القائمة</a></li>
                     <li class="nav-item"><a class="nav-link" href="about.html">طلب</a></li>
-                    <li class="nav-item"><a class="nav-link" href="about.html">تسجيل الدخول</a></li>
+                    @if (signed == 0)
+                    {
+                        <li class="nav-item">@Html.ActionLink("تسجيل الدخول", "login_signup", "Home", null, new { @class = "nav-link" })</li>
+                    }
+                    else
+                    {
+                        <li class="nav-item">@Html.ActionLink("تسجيل خروج", "Index", "Home", new { id = 1 }, new { @class = "nav-link" })</li>
+                        <li class="nav-item">@Html.ActionLink("المفضلة", "favorit", "Home", null, new { @class = "nav-link" })</li>
+
+                    }
                     <li class="nav-item">@Html.ActionLink("الإدارة", "Index", "Management", null, new { @class = "nav-link" })</li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="dropdown-a" data-toggle="dropdown">الوجبات</a>
-                        <div class="dropdown-menu" aria-labelledby="dropdown-a">
-                            <a class="dropdown-item" href="reservation.html">مشروبات</a>
-                            <a class="dropdown-item" href="stuff.html">وجبات سريعة</a>
-                            <a class="dropdown-item" href="gallery.html">Gallery</a>
-                        </div>
+
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="dropdown-a" data-toggle="dropdown">Blog</a>

@@ -12,6 +12,13 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="name" Type="nvarchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="center">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="100" />
+        </EntityType>
         <EntityType Name="customer">
           <Key>
             <PropertyRef Name="Id" />
@@ -22,13 +29,11 @@
           <Property Name="address" Type="nvarchar(max)" />
           <Property Name="phone" Type="nvarchar" MaxLength="25" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'C:\USERS\MUHAMMAD\SOURCE\REPOS\FFR\FFR\APP_DATA\DATABASE1.MDF.dbo.favorit' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="favorit">
           <Key>
-            <PropertyRef Name="customer_id" />
-            <PropertyRef Name="meal_id" />
+            <PropertyRef Name="Id" />
           </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="customer_id" Type="int" Nullable="false" />
           <Property Name="meal_id" Type="int" Nullable="false" />
         </EntityType>
@@ -43,6 +48,15 @@ warning 6002: The table/view 'C:\USERS\MUHAMMAD\SOURCE\REPOS\FFR\FFR\APP_DATA\DA
           <Property Name="picture" Type="nvarchar" MaxLength="100" />
           <Property Name="discription" Type="nvarchar" MaxLength="500" />
           <Property Name="category_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="request">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="customer_id" Type="int" Nullable="false" />
+          <Property Name="meal_id" Type="int" />
+          <Property Name="center_id" Type="int" />
         </EntityType>
         <Association Name="FK_favorit_Tocustomer">
           <End Role="customer" Type="Self.customer" Multiplicity="1">
@@ -86,16 +100,55 @@ warning 6002: The table/view 'C:\USERS\MUHAMMAD\SOURCE\REPOS\FFR\FFR\APP_DATA\DA
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_request_Tocenter">
+          <End Role="center" Type="Self.center" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="request" Type="Self.request" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="center">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="request">
+              <PropertyRef Name="center_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_request_Tocustomer">
+          <End Role="customer" Type="Self.customer" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="request" Type="Self.request" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="customer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="request">
+              <PropertyRef Name="customer_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_request_Tomeal">
+          <End Role="meal" Type="Self.meal" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="request" Type="Self.request" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="meal">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="request">
+              <PropertyRef Name="meal_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="Database1ModelStoreContainer">
           <EntitySet Name="categories" EntityType="Self.categories" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="center" EntityType="Self.center" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="customer" EntityType="Self.customer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="favorit" EntityType="Self.favorit" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="meal" EntityType="Self.meal" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="favorit" EntityType="Self.favorit" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [favorit].[customer_id] AS [customer_id], 
-    [favorit].[meal_id] AS [meal_id]
-    FROM [dbo].[favorit] AS [favorit]</DefiningQuery>
-          </EntitySet>
+          <EntitySet Name="request" EntityType="Self.request" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_favorit_Tocustomer" Association="Self.FK_favorit_Tocustomer">
             <End Role="customer" EntitySet="customer" />
             <End Role="favorit" EntitySet="favorit" />
@@ -108,31 +161,84 @@ warning 6002: The table/view 'C:\USERS\MUHAMMAD\SOURCE\REPOS\FFR\FFR\APP_DATA\DA
             <End Role="categories" EntitySet="categories" />
             <End Role="meal" EntitySet="meal" />
           </AssociationSet>
+          <AssociationSet Name="FK_request_Tocenter" Association="Self.FK_request_Tocenter">
+            <End Role="center" EntitySet="center" />
+            <End Role="request" EntitySet="request" />
+          </AssociationSet>
+          <AssociationSet Name="FK_request_Tocustomer" Association="Self.FK_request_Tocustomer">
+            <End Role="customer" EntitySet="customer" />
+            <End Role="request" EntitySet="request" />
+          </AssociationSet>
+          <AssociationSet Name="FK_request_Tomeal" Association="Self.FK_request_Tomeal">
+            <End Role="meal" EntitySet="meal" />
+            <End Role="request" EntitySet="request" />
+          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="Database1Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="Database1Entities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="categories" EntityType="Database1Model.categories" />
-          <EntitySet Name="meal" EntityType="Database1Model.meal" />
+          <EntitySet Name="categories" EntityType="Database1Model.category" />
+          <EntitySet Name="customers" EntityType="Database1Model.customer" />
+          <EntitySet Name="favorits" EntityType="Database1Model.favorit" />
+          <EntitySet Name="meals" EntityType="Database1Model.meal" />
           <AssociationSet Name="FK_meal_ToCategories" Association="Database1Model.FK_meal_ToCategories">
-            <End Role="categories" EntitySet="categories" />
-            <End Role="meal" EntitySet="meal" />
+            <End Role="category" EntitySet="categories" />
+            <End Role="meal" EntitySet="meals" />
           </AssociationSet>
-          <EntitySet Name="customer" EntityType="Database1Model.customer" />
-          <AssociationSet Name="favorit" Association="Database1Model.favorit">
-            <End Role="customer" EntitySet="customer" />
-            <End Role="meal" EntitySet="meal" />
+          <AssociationSet Name="FK_favorit_Tocustomer" Association="Database1Model.FK_favorit_Tocustomer">
+            <End Role="customer" EntitySet="customers" />
+            <End Role="favorit" EntitySet="favorits" />
+          </AssociationSet>
+          <AssociationSet Name="FK_favorit_Tomeal" Association="Database1Model.FK_favorit_Tomeal">
+            <End Role="meal" EntitySet="meals" />
+            <End Role="favorit" EntitySet="favorits" />
+          </AssociationSet>
+          <EntitySet Name="requests" EntityType="Database1Model.request" />
+          <AssociationSet Name="FK_request_Tocustomer" Association="Database1Model.FK_request_Tocustomer">
+            <End Role="customer" EntitySet="customers" />
+            <End Role="request" EntitySet="requests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_request_Tomeal" Association="Database1Model.FK_request_Tomeal">
+            <End Role="meal" EntitySet="meals" />
+            <End Role="request" EntitySet="requests" />
+          </AssociationSet>
+          <EntitySet Name="centers" EntityType="Database1Model.center" />
+          <AssociationSet Name="FK_request_Tocenter" Association="Database1Model.FK_request_Tocenter">
+            <End Role="center" EntitySet="centers" />
+            <End Role="request" EntitySet="requests" />
           </AssociationSet>
         </EntityContainer>
-        <EntityType Name="categories">
+        <EntityType Name="category">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="meal" Relationship="Database1Model.FK_meal_ToCategories" FromRole="categories" ToRole="meal" />
+          <NavigationProperty Name="meals" Relationship="Database1Model.FK_meal_ToCategories" FromRole="category" ToRole="meal" />
+        </EntityType>
+        <EntityType Name="customer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="password" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="phone" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="favorits" Relationship="Database1Model.FK_favorit_Tocustomer" FromRole="customer" ToRole="favorit" />
+          <NavigationProperty Name="requests" Relationship="Database1Model.FK_request_Tocustomer" FromRole="customer" ToRole="request" />
+        </EntityType>
+        <EntityType Name="favorit">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="customer_id" Type="Int32" Nullable="false" />
+          <Property Name="meal_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="customer" Relationship="Database1Model.FK_favorit_Tocustomer" FromRole="favorit" ToRole="customer" />
+          <NavigationProperty Name="meal" Relationship="Database1Model.FK_favorit_Tomeal" FromRole="favorit" ToRole="meal" />
         </EntityType>
         <EntityType Name="meal">
           <Key>
@@ -145,16 +251,17 @@ warning 6002: The table/view 'C:\USERS\MUHAMMAD\SOURCE\REPOS\FFR\FFR\APP_DATA\DA
           <Property Name="picture" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="discription" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="category_id" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="categories" Relationship="Database1Model.FK_meal_ToCategories" FromRole="meal" ToRole="categories" />
-          <NavigationProperty Name="customer" Relationship="Database1Model.favorit" FromRole="meal" ToRole="customer" />
+          <NavigationProperty Name="category" Relationship="Database1Model.FK_meal_ToCategories" FromRole="meal" ToRole="category" />
+          <NavigationProperty Name="favorits" Relationship="Database1Model.FK_favorit_Tomeal" FromRole="meal" ToRole="favorit" />
+          <NavigationProperty Name="requests" Relationship="Database1Model.FK_request_Tomeal" FromRole="meal" ToRole="request" />
         </EntityType>
         <Association Name="FK_meal_ToCategories">
-          <End Type="Database1Model.categories" Role="categories" Multiplicity="1">
+          <End Type="Database1Model.category" Role="category" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
           <End Type="Database1Model.meal" Role="meal" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="categories">
+            <Principal Role="category">
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="meal">
@@ -162,36 +269,131 @@ warning 6002: The table/view 'C:\USERS\MUHAMMAD\SOURCE\REPOS\FFR\FFR\APP_DATA\DA
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="customer">
+        <Association Name="FK_favorit_Tocustomer">
+          <End Type="Database1Model.customer" Role="customer" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="Database1Model.favorit" Role="favorit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="customer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="favorit">
+              <PropertyRef Name="customer_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_favorit_Tomeal">
+          <End Type="Database1Model.meal" Role="meal" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="Database1Model.favorit" Role="favorit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="meal">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="favorit">
+              <PropertyRef Name="meal_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="request">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="phone" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="meal" Relationship="Database1Model.favorit" FromRole="customer" ToRole="meal" />
-          <Property Name="password" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="customer_id" Type="Int32" Nullable="false" />
+          <Property Name="meal_id" Type="Int32" />
+          <NavigationProperty Name="customer" Relationship="Database1Model.FK_request_Tocustomer" FromRole="request" ToRole="customer" />
+          <NavigationProperty Name="meal" Relationship="Database1Model.FK_request_Tomeal" FromRole="request" ToRole="meal" />
+          <Property Name="center_id" Type="Int32" />
+          <NavigationProperty Name="center" Relationship="Database1Model.FK_request_Tocenter" FromRole="request" ToRole="center" />
         </EntityType>
-        <Association Name="favorit">
-          <End Type="Database1Model.customer" Role="customer" Multiplicity="*" />
-          <End Type="Database1Model.meal" Role="meal" Multiplicity="*" />
+        <Association Name="FK_request_Tocustomer">
+          <End Type="Database1Model.customer" Role="customer" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="Database1Model.request" Role="request" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="customer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="request">
+              <PropertyRef Name="customer_id" />
+            </Dependent>
+          </ReferentialConstraint>
         </Association>
-      </Schema>
+        <Association Name="FK_request_Tomeal">
+          <End Type="Database1Model.meal" Role="meal" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="Database1Model.request" Role="request" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="meal">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="request">
+              <PropertyRef Name="meal_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="center">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="requests" Relationship="Database1Model.FK_request_Tocenter" FromRole="center" ToRole="request" />
+        </EntityType>
+        <Association Name="FK_request_Tocenter">
+          <End Type="Database1Model.center" Role="center" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="Database1Model.request" Role="request" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="center">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="request">
+              <PropertyRef Name="center_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="Database1ModelStoreContainer" CdmEntityContainer="Database1Entities">
           <EntitySetMapping Name="categories">
-            <EntityTypeMapping TypeName="Database1Model.categories">
+            <EntityTypeMapping TypeName="Database1Model.category">
               <MappingFragment StoreEntitySet="categories">
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="meal">
+          <EntitySetMapping Name="customers">
+            <EntityTypeMapping TypeName="Database1Model.customer">
+              <MappingFragment StoreEntitySet="customer">
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="favorits">
+            <EntityTypeMapping TypeName="Database1Model.favorit">
+              <MappingFragment StoreEntitySet="favorit">
+                <ScalarProperty Name="meal_id" ColumnName="meal_id" />
+                <ScalarProperty Name="customer_id" ColumnName="customer_id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="meals">
             <EntityTypeMapping TypeName="Database1Model.meal">
               <MappingFragment StoreEntitySet="meal">
                 <ScalarProperty Name="category_id" ColumnName="category_id" />
@@ -204,25 +406,24 @@ warning 6002: The table/view 'C:\USERS\MUHAMMAD\SOURCE\REPOS\FFR\FFR\APP_DATA\DA
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="customer">
-            <EntityTypeMapping TypeName="Database1Model.customer">
-              <MappingFragment StoreEntitySet="customer">
-                <ScalarProperty Name="password" ColumnName="password" />
-                <ScalarProperty Name="phone" ColumnName="phone" />
-                <ScalarProperty Name="address" ColumnName="address" />
+          <EntitySetMapping Name="requests">
+            <EntityTypeMapping TypeName="Database1Model.request">
+              <MappingFragment StoreEntitySet="request">
+                <ScalarProperty Name="center_id" ColumnName="center_id" />
+                <ScalarProperty Name="meal_id" ColumnName="meal_id" />
+                <ScalarProperty Name="customer_id" ColumnName="customer_id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="centers">
+            <EntityTypeMapping TypeName="Database1Model.center">
+              <MappingFragment StoreEntitySet="center">
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <AssociationSetMapping Name="favorit" TypeName="Database1Model.favorit" StoreEntitySet="favorit">
-            <EndProperty Name="meal">
-              <ScalarProperty Name="Id" ColumnName="meal_id" />
-            </EndProperty>
-            <EndProperty Name="customer">
-              <ScalarProperty Name="Id" ColumnName="customer_id" />
-            </EndProperty>
-          </AssociationSetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -237,7 +438,7 @@ warning 6002: The table/view 'C:\USERS\MUHAMMAD\SOURCE\REPOS\FFR\FFR\APP_DATA\DA
     <Options>
       <DesignerInfoPropertySet>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
-        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
         <DesignerProperty Name="UseLegacyProvider" Value="false" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
