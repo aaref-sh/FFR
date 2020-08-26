@@ -43,7 +43,7 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="name" Type="nvarchar" MaxLength="50" />
-          <Property Name="price" Type="float" />
+          <Property Name="price" Type="float" Nullable="false" />
           <Property Name="discount_price" Type="float" />
           <Property Name="picture" Type="nvarchar" MaxLength="100" />
           <Property Name="discription" Type="nvarchar" MaxLength="500" />
@@ -55,8 +55,8 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="customer_id" Type="int" Nullable="false" />
-          <Property Name="meal_id" Type="int" />
-          <Property Name="center_id" Type="int" />
+          <Property Name="meal_id" Type="int" Nullable="false" />
+          <Property Name="center_id" Type="int" Nullable="false" />
         </EntityType>
         <Association Name="FK_favorit_Tocustomer">
           <End Role="customer" Type="Self.customer" Multiplicity="1">
@@ -101,7 +101,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_request_Tocenter">
-          <End Role="center" Type="Self.center" Multiplicity="0..1">
+          <End Role="center" Type="Self.center" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
           <End Role="request" Type="Self.request" Multiplicity="*" />
@@ -129,7 +129,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_request_Tomeal">
-          <End Role="meal" Type="Self.meal" Multiplicity="0..1">
+          <End Role="meal" Type="Self.meal" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
           <End Role="request" Type="Self.request" Multiplicity="*" />
@@ -195,7 +195,12 @@
             <End Role="meal" EntitySet="meals" />
             <End Role="favorit" EntitySet="favorits" />
           </AssociationSet>
+          <EntitySet Name="centers" EntityType="Database1Model.center" />
           <EntitySet Name="requests" EntityType="Database1Model.request" />
+          <AssociationSet Name="FK_request_Tocenter" Association="Database1Model.FK_request_Tocenter">
+            <End Role="center" EntitySet="centers" />
+            <End Role="request" EntitySet="requests" />
+          </AssociationSet>
           <AssociationSet Name="FK_request_Tocustomer" Association="Database1Model.FK_request_Tocustomer">
             <End Role="customer" EntitySet="customers" />
             <End Role="request" EntitySet="requests" />
@@ -204,12 +209,7 @@
             <End Role="meal" EntitySet="meals" />
             <End Role="request" EntitySet="requests" />
           </AssociationSet>
-          <EntitySet Name="centers" EntityType="Database1Model.center" />
-          <AssociationSet Name="FK_request_Tocenter" Association="Database1Model.FK_request_Tocenter">
-            <End Role="center" EntitySet="centers" />
-            <End Role="request" EntitySet="requests" />
-          </AssociationSet>
-        </EntityContainer>
+          </EntityContainer>
         <EntityType Name="category">
           <Key>
             <PropertyRef Name="Id" />
@@ -246,7 +246,7 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="price" Type="Double" />
+          <Property Name="price" Type="Double" Nullable="false" />
           <Property Name="discount_price" Type="Double" />
           <Property Name="picture" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="discription" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
@@ -297,18 +297,40 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="center">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="requests" Relationship="Database1Model.FK_request_Tocenter" FromRole="center" ToRole="request" />
+        </EntityType>
         <EntityType Name="request">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="customer_id" Type="Int32" Nullable="false" />
-          <Property Name="meal_id" Type="Int32" />
+          <Property Name="meal_id" Type="Int32" Nullable="false" />
+          <Property Name="center_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="center" Relationship="Database1Model.FK_request_Tocenter" FromRole="request" ToRole="center" />
           <NavigationProperty Name="customer" Relationship="Database1Model.FK_request_Tocustomer" FromRole="request" ToRole="customer" />
           <NavigationProperty Name="meal" Relationship="Database1Model.FK_request_Tomeal" FromRole="request" ToRole="meal" />
-          <Property Name="center_id" Type="Int32" />
-          <NavigationProperty Name="center" Relationship="Database1Model.FK_request_Tocenter" FromRole="request" ToRole="center" />
         </EntityType>
+        <Association Name="FK_request_Tocenter">
+          <End Type="Database1Model.center" Role="center" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="Database1Model.request" Role="request" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="center">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="request">
+              <PropertyRef Name="center_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_request_Tocustomer">
           <End Type="Database1Model.customer" Role="customer" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -324,7 +346,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_request_Tomeal">
-          <End Type="Database1Model.meal" Role="meal" Multiplicity="0..1">
+          <End Type="Database1Model.meal" Role="meal" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
           <End Type="Database1Model.request" Role="request" Multiplicity="*" />
@@ -334,28 +356,6 @@
             </Principal>
             <Dependent Role="request">
               <PropertyRef Name="meal_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="center">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="requests" Relationship="Database1Model.FK_request_Tocenter" FromRole="center" ToRole="request" />
-        </EntityType>
-        <Association Name="FK_request_Tocenter">
-          <End Type="Database1Model.center" Role="center" Multiplicity="0..1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="Database1Model.request" Role="request" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="center">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="request">
-              <PropertyRef Name="center_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -406,20 +406,20 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="centers">
+            <EntityTypeMapping TypeName="Database1Model.center">
+              <MappingFragment StoreEntitySet="center">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="requests">
             <EntityTypeMapping TypeName="Database1Model.request">
               <MappingFragment StoreEntitySet="request">
                 <ScalarProperty Name="center_id" ColumnName="center_id" />
                 <ScalarProperty Name="meal_id" ColumnName="meal_id" />
                 <ScalarProperty Name="customer_id" ColumnName="customer_id" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="centers">
-            <EntityTypeMapping TypeName="Database1Model.center">
-              <MappingFragment StoreEntitySet="center">
-                <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

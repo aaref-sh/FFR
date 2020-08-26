@@ -29,7 +29,7 @@ namespace FFR.Models
         public virtual DbSet<customer> customers { get; set; }
         public virtual DbSet<favorit> favorits { get; set; }
         public virtual DbSet<meal> meals { get; set; }
-        public virtual DbSet<request> requests { get; set; }
         public virtual DbSet<center> centers { get; set; }
+        public virtual DbSet<request> requests { get; set; }
     }
 }

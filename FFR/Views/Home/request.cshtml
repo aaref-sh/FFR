@@ -4,6 +4,7 @@
 
     ViewBag.Title = "الطلب";
     IEnumerable<FFR.Models.category> cats = ViewBag.cats;
+    IEnumerable<FFR.Models.request> reqs = ViewBag.reqs;
 }
 
 <!-- Start header -->
@@ -19,7 +20,18 @@
 <!-- End header -->
 <div class="about-section-box">
     <div class="container text-right" dir="rtl">
-
+        <div class="alert alert-light" role="alert">
+            المبلغ المترتب: @ViewBag.total
+        </div>
+        @if (ViewBag.message != null)
+        {
+            <div class="alert alert-info alert-dismissible fade show" role="alert">
+                @ViewBag.message
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        }
         <div class="row inner-menu-box">
             <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="horizontal">
                 <a class="nav-link active" style="display:inline" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">طلب وجبة</a>
@@ -49,27 +61,19 @@
                         <div class="col-9">
                             <div class="tab-content" id="v-pills-tabContent">
                                 <div class="tab-pane fade show active" id="v-pills-all" role="tabpanel" aria-labelledby="v-pills-all-tab">
-                                    <div class="form-group">
-                                        
-                                        <div class="row">
-                                            <p class="control-label col-md-3">اختر مكان الاستلام</p>
-                                            <div class="col-md-9">
-                                                @Html.DropDownList("center_id", null, htmlAttributes: new { @class = "form-control" })
-                                            </div>
-                                        </div>
-                                    </div>
                                     <div class="row">
                                         @foreach (var item in Model)
                                         {
-
                                             <div class="col-lg-4 col-md-6 special-grid">
                                                 <div class="gallery-single fix">
                                                     <img src="@Url.Content("~/pics/"+item.picture)" class="img-fluid" alt="Image">
                                                     <div class="why-text">
-                                                        @Html.ActionLink(item.name, "details", new { id = item.Id }, new { @class = "act", style = "display: inline;" })
-                                                        
-                                                        @Html.ActionLink("طلب", "request", new { id = item.Id }, new { @class = "btn btn-warning btn-sm ", style = "display: inline;" })
-
+                                                        @using (Html.BeginForm("request", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                                        {
+                                                            @Html.ActionLink(item.name, "details", new { id = item.Id }, new { @class = "act", style = "display: inline;" })
+                                                            @Html.AntiForgeryToken()
+                                                            <input style="display:inline" type="submit" name="@item.Id" id="@item.Id" value="طلب" class="btn btn-warning" />
+                                                        }
                                                         <p></p>
                                                         <p style="font-size: 20px; display: inline;"> @item.discount_price ل.س</p>
                                                         @if (item.discount_price != item.price)
@@ -88,12 +92,16 @@
                                         <div class="row">
                                             @foreach (var item in cat.meals)
                                             {
-                                                <div class="col-lg-4 col-md-6 special-grid drinks">
+                                                <div class="col-lg-4 col-md-6 special-grid">
                                                     <div class="gallery-single fix">
-                                                        <img src="@Url.Content("~/pics/" + item.picture)" class="img-fluid" alt="Image">
+                                                        <img src="@Url.Content("~/pics/"+item.picture)" class="img-fluid" alt="Image">
                                                         <div class="why-text">
-                                                            @Html.ActionLink(item.name, "details", new { id = item.Id }, new { @class = "act" })
-                                                            @Html.ActionLink("طلب", "request", new { id = item.Id }, new { @class = "btn btn-warning btn-sm ", style = "display: inline;" })
+                                                            @using (Html.BeginForm("request", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                                            {
+                                                                @Html.ActionLink(item.name, "details", new { id = item.Id }, new { @class = "act", style = "display: inline;" })
+                                                                @Html.AntiForgeryToken()
+                                                                <input style="display:inline" type="submit" name="@item.Id" id="@item.Id" value="طلب" class="btn btn-warning" />
+                                                            }
                                                             <p></p>
                                                             <p style="font-size: 20px; display: inline;"> @item.discount_price ل.س</p>
                                                             @if (item.discount_price != item.price)
@@ -110,11 +118,53 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
+
                 <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
                     <div class="row">
+                        <table class="table">
+                            <tr>
+                                <th>
+                                    اسم الوجبة
+                                </th>
+                                <th>
+                                    السعر
+                                </th>
+                                <th>
+                                    الوصف
+                                </th>
+                                <th>
+                                    الصنف
+                                </th>
+                                <th></th>
+                            </tr>
 
+                            @foreach (var item in reqs)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.meal.name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.meal.price)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.meal.discription)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.meal.category.name)
+                                    </td>
+                                    <td>
+                                        @using (Html.BeginForm("request", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                        {
+                                            @Html.AntiForgeryToken()
+                                            <input type="submit" name="@item.Id" id="@item.Id" value="إلغاء الطلب" class="btn btn-danger btn-sm" />
+                                        }
+                                    </td>
+                                </tr>
+                            }
+
+                        </table>
                     </div>
                 </div>
             </div>

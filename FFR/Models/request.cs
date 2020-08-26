@@ -16,11 +16,11 @@ namespace FFR.Models
     {
         public int Id { get; set; }
         public int customer_id { get; set; }
-        public Nullable<int> meal_id { get; set; }
-        public Nullable<int> center_id { get; set; }
+        public int meal_id { get; set; }
+        public int center_id { get; set; }
     
+        public virtual center center { get; set; }
         public virtual customer customer { get; set; }
         public virtual meal meal { get; set; }
-        public virtual center center { get; set; }
     }
 }

@@ -403,6 +403,7 @@
     <Content Include="Views\Home\favorit.cshtml" />
     <Content Include="Views\Home\request.cshtml" />
     <Content Include="Views\Home\full_menu.cshtml" />
+    <Content Include="Views\Home\chose.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\index.d.ts" />

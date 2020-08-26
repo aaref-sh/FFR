@@ -104,28 +104,59 @@ namespace FFR.Controllers
             }
             return RedirectToAction("Index","Home",null);
         }
-        
-        public ActionResult request()
+       
+        static string center_id = "";
+        public ActionResult chose()
         {
             ViewBag.center_id = new SelectList(db.centers, "Id", "name");
-            ViewBag.reqs = db.requests.ToList();
+            return View();
+        } 
+        [HttpPost]
+        public ActionResult chose(FormCollection col)
+        {
+            center_id = col[1];
+            return RedirectToAction("request");
+        }
+        [HttpGet]
+        public ActionResult request()
+        {
+            int user = Convert.ToInt32(Session["id"]);
+            ViewBag.reqs = (from x in db.requests where x.customer_id == user select x).ToList();
             ViewBag.cats = db.categories.ToList();
+            double sum = 0;
+            List<double> total = (from x in db.requests where x.customer_id == user select x.meal.price).ToList();
+            foreach (var one in total) sum += one;
+            ViewBag.total = sum;
             return View(db.meals.ToList());
         }
         [HttpPost]
-        public ActionResult request(int id,string list)
+        public ActionResult request(FormCollection col)
         {
             int user = Convert.ToInt32(Session["id"]);
-            request req = new request();
-            req.center_id = Convert.ToInt32(list);
-            req.customer_id = user;
-            req.meal_id = id;
-            db.requests.Add(req);
-            db.SaveChanges();
-            ViewBag.message = "تم الطلب";
-        
+            if (col[1] == "إلغاء الطلب")
+            {
+                int req = Convert.ToInt32(col.AllKeys[1]);
+                request r = (from x in db.requests where x.Id == req select x).FirstOrDefault();
+                db.requests.Remove(r);
+                db.SaveChanges();
+                ViewBag.message = "تم حذف الطلب";
+            }
+            else
+            {
+                request req = new request();
+                req.center_id = Convert.ToInt32(center_id);
+                req.customer_id = user;
+                req.meal_id = Convert.ToInt32(col.AllKeys[1]);
+                db.requests.Add(req);
+                db.SaveChanges();
+                ViewBag.message = "تم الطلب";
+            }
+            double sum = 0;
+            List<double> total = (from x in db.requests where x.customer_id == user select x.meal.price).ToList();
+            foreach (var one in total) sum += one;
+            ViewBag.total = sum;
             ViewBag.center_id = new SelectList(db.centers, "Id", "name");
-            ViewBag.reqs = db.requests.ToList();
+            ViewBag.reqs = (from x in db.requests where x.customer_id == user select x).ToList();
             ViewBag.cats = db.categories.ToList();
             return View(db.meals.ToList());
         }

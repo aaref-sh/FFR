@@ -23,7 +23,7 @@ namespace FFR.Models
     
         public int Id { get; set; }
         public string name { get; set; }
-        public Nullable<double> price { get; set; }
+        public double price { get; set; }
         public Nullable<double> discount_price { get; set; }
         public string picture { get; set; }
         public string discription { get; set; }
