@@ -15,11 +15,13 @@ namespace FFR.Controllers
         // GET: Management
         public ActionResult Index()
         {
+            if(Session["admin"]==null)return RedirectToAction("login_signup", "Home", null);
             return View();
         }
         [HttpGet]
         public ActionResult Add(FormCollection col)
         {
+            if (Session["admin"] == null) return RedirectToAction("login_signup", "Home", null);
             return View();
         }
         [HttpPost]
@@ -45,6 +47,7 @@ namespace FFR.Controllers
         [HttpGet]
         public ActionResult Create()
         {
+            if (Session["admin"] == null) return RedirectToAction("login_signup", "Home", null);
             ViewBag.category_id = new SelectList(db.categories, "Id", "name");
             return View();
         }
@@ -82,7 +85,8 @@ namespace FFR.Controllers
         }
         public ActionResult delete(int? id)
         {
-            if(id != null)
+            if (Session["admin"] == null) return RedirectToAction("login_signup", "Home", null);
+            if (id != null)
             {
                System.IO.File.Delete(Server.MapPath("~/pics/") + (from x in db.meals where x.Id == id select x.picture).FirstOrDefault());
                 db.meals.Remove((from x in db.meals where x.Id == id select x).FirstOrDefault());
@@ -94,7 +98,8 @@ namespace FFR.Controllers
         }
         public ActionResult Del_cat(int? id)
         {
-            if(id != null)
+            if (Session["admin"] == null) return RedirectToAction("login_signup", "Home", null);
+            if (id != null)
             {
                 db.categories.Remove((from x in db.categories where x.Id == id select x).FirstOrDefault());
                 db.SaveChanges();
@@ -106,12 +111,14 @@ namespace FFR.Controllers
 
         public ActionResult Edit_list()
         {
+            if (Session["admin"] == null) return RedirectToAction("login_signup", "Home", null);
             List<meal>l = (from x in db.meals select x).ToList();
             return View(l);
         }
         [HttpGet]
         public ActionResult Edit(int id)
         {
+            if (Session["admin"] == null) return RedirectToAction("login_signup", "Home", null);
             meal m = (from x in db.meals where x.Id == id select x).FirstOrDefault();
             ViewBag.category_id = new SelectList(db.categories, "Id", "name");
             return View(m);
@@ -142,6 +149,7 @@ namespace FFR.Controllers
         }
         public ActionResult delete_offer(int? id)
         {
+            if (Session["admin"] == null) return RedirectToAction("login_signup", "Home", null);
             if (id != null)
             {
                 meal m = (from x in db.meals where x.Id == id select x).FirstOrDefault();
@@ -155,11 +163,13 @@ namespace FFR.Controllers
         }
         public ActionResult create_offer_list()
         {
+            if (Session["admin"] == null) return RedirectToAction("login_signup", "Home", null);
             List<meal> lst = (from x in db.meals where x.price == x.discount_price select x).ToList();
             return View(lst);
         }
         public ActionResult create_offer(int id)
         {
+            if (Session["admin"] == null) return RedirectToAction("login_signup", "Home", null);
             meal m = (from x in db.meals where x.Id == id select x).FirstOrDefault();
             return View(m);
         }
@@ -176,6 +186,7 @@ namespace FFR.Controllers
         }
         public ActionResult requests(int?id)
         {
+            if (Session["admin"] == null) return RedirectToAction("login_signup", "Home", null);
             if (id != null)
             {
                 request r = (from x in db.requests where x.Id == id select x).FirstOrDefault();

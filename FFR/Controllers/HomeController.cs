@@ -18,14 +18,9 @@ namespace FFR.Controllers
             ViewBag.cats = cats;
             return View(lst);
         }
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
         public ActionResult favorit()
         {
+            if (Session["id"] == null) return RedirectToAction("login_signup");
             int user = Convert.ToInt32(Session["id"]);
             List<meal> mls = (from x in db.favorits where x.customer_id == user select x.meal).ToList();
             List<category> cats = (from x in mls select x.category).ToList();
@@ -57,12 +52,6 @@ namespace FFR.Controllers
             }
             ViewBag.stat = added;
             return View(m);
-        }
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
         }
         [HttpGet]
         public ActionResult login_signup(){
@@ -111,6 +100,7 @@ namespace FFR.Controllers
         static string center_id = "";
         public ActionResult chose()
         {
+            if (Session["id"] == null) return RedirectToAction("login_signup");
             ViewBag.center_id = new SelectList(db.centers, "Id", "name");
             return View();
         } 
@@ -123,6 +113,7 @@ namespace FFR.Controllers
         [HttpGet]
         public ActionResult request()
         {
+            if (Session["id"] == null) return RedirectToAction("login_signup");
             int user = Convert.ToInt32(Session["id"]);
             ViewBag.reqs = (from x in db.requests where x.done != true && x.customer_id == user select x).ToList();
             ViewBag.cats = db.categories.ToList();
