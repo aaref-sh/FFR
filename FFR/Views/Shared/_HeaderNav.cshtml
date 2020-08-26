@@ -1,6 +1,9 @@
 ﻿@{ 
     int signed = 0;
     if (Session["id"] != null) { signed = Convert.ToInt32(Session["id"]); }
+    bool admin = false;
+    if (Session["admin"] != null) { admin = true; }
+
 }
 
 <!-- Start header -->
@@ -17,32 +20,25 @@
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
                         @Html.ActionLink("الرئيسية", "Index", "Home", null, new { @class = "nav-link" })
-
                     </li>
-                    <li class="nav-item"><a class="nav-link" href="menu.html">القائمة</a></li>
-                    @if (signed == 0)
+                    @if (signed == 0 && !admin)
                     {
                         <li class="nav-item">@Html.ActionLink("تسجيل الدخول", "login_signup", "Home", null, new { @class = "nav-link" })</li>
                     }
                     else
                     {
                         <li class="nav-item">@Html.ActionLink("تسجيل خروج", "Index", "Home", new { id = 1 }, new { @class = "nav-link" })</li>
+                    }
+                    @if (signed != 0)
+                    {
                         <li class="nav-item">@Html.ActionLink("المفضلة", "favorit", "Home", null, new { @class = "nav-link" })</li>
                         <li class="nav-item">@Html.ActionLink("طلب", "chose", "Home", null, new { @class = "nav-link" })</li>
-
+                        <li class="nav-item">@Html.ActionLink("العروض", "solds", "Home", null, new { @class = "nav-link" })</li>
                     }
-                    <li class="nav-item">@Html.ActionLink("الإدارة", "Index", "Management", null, new { @class = "nav-link" })</li>
-                    <li class="nav-item dropdown">
-
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="dropdown-a" data-toggle="dropdown">Blog</a>
-                        <div class="dropdown-menu" aria-labelledby="dropdown-a">
-                            <a class="dropdown-item" href="blog.html">blog</a>
-                            <a class="dropdown-item" href="blog-details.html">blog Single</a>
-                        </div>
-                    </li>
-                    <li class="nav-item"><a class="nav-link" href="contact.html">التواصل</a></li>
+                    @if (admin)
+                    {
+                        <li class="nav-item">@Html.ActionLink("الإدارة", "Index", "Management", null, new { @class = "nav-link" })</li>
+                    }
                 </ul>
             </div>
         </div>

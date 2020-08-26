@@ -404,6 +404,8 @@
     <Content Include="Views\Home\request.cshtml" />
     <Content Include="Views\Home\full_menu.cshtml" />
     <Content Include="Views\Home\chose.cshtml" />
+    <Content Include="Views\Management\requests.cshtml" />
+    <Content Include="Views\Home\solds.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\index.d.ts" />

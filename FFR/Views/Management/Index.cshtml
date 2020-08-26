@@ -24,7 +24,7 @@
                         <img src="@Url.Content("~/images/tdl.png")">
                     </div>
                     <div class="team-content">
-                        <a href="#" class="title">استعراض الطلبات</a>
+                        @Html.ActionLink("استعراض الطلبات", "requests", null, new { @class = "title" })
                     </div>
                 </div>
             </div>

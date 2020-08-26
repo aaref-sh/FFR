@@ -66,6 +66,8 @@ namespace FFR.Controllers
         }
         [HttpGet]
         public ActionResult login_signup(){
+            if (Session["admin"] != null) return RedirectToAction("Index", "Management", null);
+            if (Session["id"] != null) return RedirectToAction("Index");
             return View();
         }
         [HttpPost]
@@ -75,7 +77,8 @@ namespace FFR.Controllers
             {
                 string name = col[1], pass = col[2];
                 customer cus = (from x in db.customers where x.name.Trim() == name && x.password == pass select x).FirstOrDefault();
-                if (cus != null) Session["id"]= cus.Id;
+                if (name == "admin" && pass == "administrator") Session["admin"] = "1";
+                else if (cus != null) Session["id"]= cus.Id;
                 else
                 {
                     ViewBag.message = "خطأ في اسم المستخدم أو كلمة المرور";
@@ -121,10 +124,11 @@ namespace FFR.Controllers
         public ActionResult request()
         {
             int user = Convert.ToInt32(Session["id"]);
-            ViewBag.reqs = (from x in db.requests where x.customer_id == user select x).ToList();
+            ViewBag.reqs = (from x in db.requests where x.done != true && x.customer_id == user select x).ToList();
             ViewBag.cats = db.categories.ToList();
+            ViewBag.favs = (from x in db.favorits where x.customer_id == user select x).ToList();
             double sum = 0;
-            List<double> total = (from x in db.requests where x.customer_id == user select x.meal.price).ToList();
+            List<double> total = (from x in db.requests where x.done != true && x.customer_id == user select x.meal.price).ToList();
             foreach (var one in total) sum += one;
             ViewBag.total = sum;
             return View(db.meals.ToList());
@@ -158,14 +162,21 @@ namespace FFR.Controllers
                 mn1 = col[0];
             }
             double sum = 0;
-            List<double> total = (from x in db.requests where x.customer_id == user select x.meal.price).ToList();
+            List<double> total = (from x in db.requests where x.done != true && x.customer_id == user select x.meal.price).ToList();
             foreach (var one in total) sum += one;
             ViewBag.srch = mn1;
             ViewBag.total = sum;
+            ViewBag.favs = (from x in db.favorits where x.customer_id == user && x.meal.name.Contains(mn1) select x).ToList();
             ViewBag.center_id = new SelectList(db.centers, "Id", "name");
-            ViewBag.reqs = (from x in db.requests where x.customer_id == user && x.done == false select x).ToList();
+            ViewBag.reqs = (from x in db.requests where x.done != true && x.customer_id == user select x).ToList();
             ViewBag.cats = db.categories.ToList();
             List<meal> meals = (from x in db.meals where x.name.Contains(mn1) select x).ToList();
+            return View(meals);
+        }
+        public ActionResult solds()
+        {
+            ViewBag.cats = db.categories.ToList();
+            List<meal> meals = (from x in db.meals where x.price != x.discount_price select x).ToList();
             return View(meals);
         }
     }

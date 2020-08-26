@@ -174,5 +174,18 @@ namespace FFR.Controllers
             meal m = (from x in db.meals where x.Id == id select x).FirstOrDefault();
             return View(m);
         }
+        public ActionResult requests(int?id)
+        {
+            if (id != null)
+            {
+                request r = (from x in db.requests where x.Id == id select x).FirstOrDefault();
+                r.done = true;
+                db.requests.AddOrUpdate(r);
+                db.SaveChanges();
+                ViewBag.message = "تم تعيينه كمُعَالَجْ";
+            }
+            List<request> reqs = (from x in db.requests where x.done != true select x).ToList();
+            return View(reqs);
+        }
     }
 }

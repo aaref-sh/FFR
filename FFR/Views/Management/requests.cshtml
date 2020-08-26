@@ -1,0 +1,81 @@
+﻿@model IEnumerable<FFR.Models.request>
+
+@{
+    ViewBag.Title = "الطلبات";
+}
+
+<!-- Start All Pages -->
+<div class="all-page-title page-breadcrumb">
+    <div class="container text-center">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1>الطلبات</h1>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End All Pages -->
+<!-- Start Stuff -->
+<div class="stuff-box">
+    <div class="container text-right"dir="rtl">
+        <table class="table table-responsive-sm">
+            <tr>
+                <th>
+                    رقم الطلب
+                </th>
+                <th>
+                    صاحب الطلب
+                </th>
+                <th>
+                    اسم الوجبة
+                </th>
+                <th>
+                    السعر
+                </th>
+                <th>
+                    الصنف
+                </th>
+                <th>
+                    مكان الاستلام
+                </th>
+                <th>تعيينه كمعالج</th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.customer.name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.meal.name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.meal.price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.meal.category.name)
+            </td>
+            <td>
+                @if (item.center.name[0] == 'ت')
+                {
+                    @Html.DisplayFor(modelItem => item.center.name)<br /> @Html.DisplayFor(modelItem => item.customer.address) 
+                }
+                else
+                {
+                    @Html.DisplayFor(modelItem => item.center.name)
+                }
+            </td>
+            <td>
+                @Html.ActionLink("تم", "requests", new { id = item.Id }, new { @class = "btn btn-success btn-sm" })
+            </td>
+        </tr>
+            }
+
+        </table>
+    </div>
+</div>
