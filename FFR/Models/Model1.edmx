@@ -57,6 +57,7 @@
           <Property Name="customer_id" Type="int" Nullable="false" />
           <Property Name="meal_id" Type="int" Nullable="false" />
           <Property Name="center_id" Type="int" Nullable="false" />
+          <Property Name="done" Type="bit" />
         </EntityType>
         <Association Name="FK_favorit_Tocustomer">
           <End Role="customer" Type="Self.customer" Multiplicity="1">
@@ -313,6 +314,7 @@
           <Property Name="customer_id" Type="Int32" Nullable="false" />
           <Property Name="meal_id" Type="Int32" Nullable="false" />
           <Property Name="center_id" Type="Int32" Nullable="false" />
+          <Property Name="done" Type="Boolean" />
           <NavigationProperty Name="center" Relationship="Database1Model.FK_request_Tocenter" FromRole="request" ToRole="center" />
           <NavigationProperty Name="customer" Relationship="Database1Model.FK_request_Tocustomer" FromRole="request" ToRole="customer" />
           <NavigationProperty Name="meal" Relationship="Database1Model.FK_request_Tomeal" FromRole="request" ToRole="meal" />
@@ -417,6 +419,7 @@
           <EntitySetMapping Name="requests">
             <EntityTypeMapping TypeName="Database1Model.request">
               <MappingFragment StoreEntitySet="request">
+                <ScalarProperty Name="done" ColumnName="done" />
                 <ScalarProperty Name="center_id" ColumnName="center_id" />
                 <ScalarProperty Name="meal_id" ColumnName="meal_id" />
                 <ScalarProperty Name="customer_id" ColumnName="customer_id" />

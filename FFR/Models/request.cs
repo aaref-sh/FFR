@@ -18,6 +18,7 @@ namespace FFR.Models
         public int customer_id { get; set; }
         public int meal_id { get; set; }
         public int center_id { get; set; }
+        public Nullable<bool> done { get; set; }
     
         public virtual center center { get; set; }
         public virtual customer customer { get; set; }

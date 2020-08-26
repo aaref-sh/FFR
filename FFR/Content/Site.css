@@ -8,3 +8,15 @@ a {
     text-decoration: none;
     background-color: transparent;
 }
+.form-control[readonly]{
+	background-color: #ffffff;
+}
+
+.form-control{
+	border-radius: 0px;
+	min-height: 50px;
+}
+.form-control:focus{
+	border: 1px solid #d65106;
+	box-shadow: none;
+}

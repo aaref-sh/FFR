@@ -129,9 +129,11 @@ namespace FFR.Controllers
             ViewBag.total = sum;
             return View(db.meals.ToList());
         }
+        static string mn = "";
         [HttpPost]
         public ActionResult request(FormCollection col)
         {
+            string mn1 = mn;
             int user = Convert.ToInt32(Session["id"]);
             if (col[1] == "إلغاء الطلب")
             {
@@ -141,7 +143,7 @@ namespace FFR.Controllers
                 db.SaveChanges();
                 ViewBag.message = "تم حذف الطلب";
             }
-            else
+            else if(col[1]== "طلب")
             {
                 request req = new request();
                 req.center_id = Convert.ToInt32(center_id);
@@ -151,14 +153,20 @@ namespace FFR.Controllers
                 db.SaveChanges();
                 ViewBag.message = "تم الطلب";
             }
+            else
+            {
+                mn1 = col[0];
+            }
             double sum = 0;
             List<double> total = (from x in db.requests where x.customer_id == user select x.meal.price).ToList();
             foreach (var one in total) sum += one;
+            ViewBag.srch = mn1;
             ViewBag.total = sum;
             ViewBag.center_id = new SelectList(db.centers, "Id", "name");
-            ViewBag.reqs = (from x in db.requests where x.customer_id == user select x).ToList();
+            ViewBag.reqs = (from x in db.requests where x.customer_id == user && x.done == false select x).ToList();
             ViewBag.cats = db.categories.ToList();
-            return View(db.meals.ToList());
+            List<meal> meals = (from x in db.meals where x.name.Contains(mn1) select x).ToList();
+            return View(meals);
         }
     }
 }

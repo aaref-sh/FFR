@@ -21,7 +21,7 @@
 <div class="about-section-box">
     <div class="container text-right" dir="rtl">
         <div class="alert alert-light" role="alert">
-            المبلغ المترتب: @ViewBag.total
+            المبلغ المترتب للدفع: @ViewBag.total
         </div>
         @if (ViewBag.message != null)
         {
@@ -32,6 +32,16 @@
                 </button>
             </div>
         }
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="heading-title text-center">
+                    <h2>قائمة الطلبات</h2>
+                    <p>هنا تجد الوجبات التي قمت بطلبها والمراكز التي حددتها للاستلام</p>
+                    <hr />
+                </div>
+            </div>
+        </div>
         <table class="table">
             <tr>
                 <th>
@@ -41,10 +51,10 @@
                     السعر
                 </th>
                 <th>
-                    الوصف
+                    الصنف
                 </th>
                 <th>
-                    الصنف
+                    مكان الاستلام
                 </th>
                 <th></th>
             </tr>
@@ -59,10 +69,10 @@
                         @Html.DisplayFor(modelItem => item.meal.price)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.meal.discription)
+                        @Html.DisplayFor(modelItem => item.meal.category.name)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.meal.category.name)
+                        @Html.DisplayFor(modelItem => item.center.name)
                     </td>
                     <td>
                         @using (Html.BeginForm("request", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
@@ -75,14 +85,26 @@
             }
 
         </table>
+
         <div class="row">
             <div class="col-lg-12">
                 <div class="heading-title text-center">
-                    <h2>قائمة الوجبات</h2>
+                    <h2>طلب الوجبات</h2>
                     <p>يمكنك طلب الوجبة عبر الضغط على زر "طلب" الذي يظهر عند تحديد الوجبة</p>
+                    <hr />
                 </div>
             </div>
         </div>
+        @using (Html.BeginForm("request", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            <div class="row">
+                <div class="col-9">
+                    <input type="search" name="search" value="@ViewBag.srch" class="form-control" placeholder="اكتب اسم الوجبة للبحث" />
+                </div>
+                <input type="submit" class="btn btn-warning col-3" id="srch" name="srch" value="بحث" />
+            </div>
+        }
+        <br />
         <div class="row inner-menu-box text-right" dir="rtl">
             <div class="col-3">
                 <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
@@ -126,27 +148,30 @@
                     {
                         <div class="tab-pane fade" id="v-pills-@cat.Id" role="tabpanel" aria-labelledby="v-pills-@cat.Id-tab">
                             <div class="row">
-                                @foreach (var item in cat.meals)
+                                @foreach (var item in Model)
                                 {
-                                    <div class="col-lg-4 col-md-6 special-grid">
-                                        <div class="gallery-single fix">
-                                            <img src="@Url.Content("~/pics/"+item.picture)" class="img-fluid" alt="Image">
-                                            <div class="why-text">
-                                                @using (Html.BeginForm("request", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
-                                                {
-                                                    @Html.ActionLink(item.name, "details", new { id = item.Id }, new { @class = "act", style = "display: inline;" })
-                                                    @Html.AntiForgeryToken()
-                                                    <input style="display:inline" type="submit" name="@item.Id" id="@item.Id" value="طلب" class="btn btn-warning" />
-                                                }
-                                                <p></p>
-                                                <p style="font-size: 20px; display: inline;"> @item.discount_price ل.س</p>
-                                                @if (item.discount_price != item.price)
-                                                {
-                                                    <p style="font-size: 17px; color: #e4e4e4; text-decoration: line-through; display: inline;"> @item.price ل.س</p>
-                                                }
+                                    if (item.category_id == cat.Id)
+                                    {
+                                        <div class="col-lg-4 col-md-6 special-grid">
+                                            <div class="gallery-single fix">
+                                                <img src="@Url.Content("~/pics/"+item.picture)" class="img-fluid" alt="Image">
+                                                <div class="why-text">
+                                                    @using (Html.BeginForm("request", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                                    {
+                                                        @Html.ActionLink(item.name, "details", new { id = item.Id }, new { @class = "act", style = "display: inline;" })
+                                                        @Html.AntiForgeryToken()
+                                                        <input style="display:inline" type="submit" name="@item.Id" id="@item.Id" value="طلب" class="btn btn-warning" />
+                                                    }
+                                                    <p></p>
+                                                    <p style="font-size: 20px; display: inline;"> @item.discount_price ل.س</p>
+                                                    @if (item.discount_price != item.price)
+                                                    {
+                                                        <p style="font-size: 17px; color: #e4e4e4; text-decoration: line-through; display: inline;"> @item.price ل.س</p>
+                                                    }
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    }
                                 }
                             </div>
                         </div>
@@ -154,6 +179,9 @@
                 </div>
             </div>
         </div>
-        
+        <div>
+            @Html.ActionLink("العودة لصفحة مكان الاستلام", "chose")
+        </div>
     </div>
 </div>
+

@@ -13,7 +13,7 @@
         <AssociationConnector Association="Database1Model.FK_favorit_Tocustomer" />
         <AssociationConnector Association="Database1Model.FK_favorit_Tomeal" />
         <EntityTypeShape EntityType="Database1Model.center" Width="1.5" PointX="0.625" PointY="5" />
-        <EntityTypeShape EntityType="Database1Model.request" Width="1.5" PointX="3" PointY="5.125" />
+        <EntityTypeShape EntityType="Database1Model.request" Width="1.5" PointX="3.25" PointY="5.125" />
         <AssociationConnector Association="Database1Model.FK_request_Tocenter" />
         <AssociationConnector Association="Database1Model.FK_request_Tocustomer" />
         <AssociationConnector Association="Database1Model.FK_request_Tomeal" />
