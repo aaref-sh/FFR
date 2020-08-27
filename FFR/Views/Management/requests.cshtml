@@ -17,7 +17,7 @@
 <!-- End All Pages -->
 <!-- Start Stuff -->
 <div class="stuff-box">
-    <div class="container text-right"dir="rtl">
+    <div class="container text-right" dir="rtl">
         <table class="table table-responsive-sm">
             <tr>
                 <th>
@@ -43,39 +43,42 @@
 
             @foreach (var item in Model)
             {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
 
-            <td>
-                @Html.DisplayFor(modelItem => item.customer.name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.meal.name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.meal.price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.meal.category.name)
-            </td>
-            <td>
-                @if (item.center.name[0] == 'ت')
-                {
-                    @Html.DisplayFor(modelItem => item.center.name)<br /> @Html.DisplayFor(modelItem => item.customer.address) 
-                }
-                else
-                {
-                    @Html.DisplayFor(modelItem => item.center.name)
-                }
-            </td>
-            <td>
-                @Html.ActionLink("تم", "requests", new { id = item.Id }, new { @class = "btn btn-success btn-sm" })
-            </td>
-        </tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.customer.name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.meal.name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.meal.price)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.meal.category.name)
+                    </td>
+                    <td>
+                        @if (item.center.name[0] == 'ت')
+                        {
+                            @Html.DisplayFor(modelItem => item.center.name)<br /> @Html.DisplayFor(modelItem => item.customer.address)
+                        }
+                        else
+                        {
+                            @Html.DisplayFor(modelItem => item.center.name)
+                        }
+                    </td>
+                    <td>
+                        @Html.ActionLink("تم", "requests", new { id = item.Id }, new { @class = "btn btn-success btn-sm" })
+                    </td>
+                </tr>
             }
 
         </table>
+        <div class="text-right" dir="rtl">
+            @Html.ActionLink("العودة لصفحة الإدارة", "Index")
+        </div>
     </div>
 </div>

@@ -138,7 +138,7 @@
                                             {
                                                 @Html.ActionLink(item.meal.name, "details", new { id = item.Id }, new { @class = "act", style = "display: inline;" })
                                                 @Html.AntiForgeryToken()
-                                                <input style="display:inline" type="submit" name="@item.Id" id="@item.Id" value="طلب" class="btn btn-warning" />
+                                                <input style="display:inline" type="submit" name="@item.meal.Id" id="@item.meal.Id" value="طلب" class="btn btn-warning" />
                                             }
                                             <p></p>
                                             <p style="font-size: 20px; display: inline;"> @item.meal.discount_price ل.س</p>

@@ -374,8 +374,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\_HeaderNav.cshtml" />
     <Content Include="Views\Home\details.cshtml" />
@@ -402,10 +400,12 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Home\favorit.cshtml" />
     <Content Include="Views\Home\request.cshtml" />
-    <Content Include="Views\Home\full_menu.cshtml" />
     <Content Include="Views\Home\chose.cshtml" />
     <Content Include="Views\Management\requests.cshtml" />
     <Content Include="Views\Home\solds.cshtml" />
+    <Content Include="Views\Home\access_denied.cshtml" />
+    <Content Include="Views\Management\reports_list.cshtml" />
+    <Content Include="Views\Management\report.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\index.d.ts" />

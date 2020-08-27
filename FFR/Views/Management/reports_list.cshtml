@@ -1,0 +1,55 @@
+﻿@model IEnumerable<FFR.Models.customer>
+
+@{
+    ViewBag.Title = "الزبائن";
+}
+
+<!-- Start All Pages -->
+<div class="all-page-title page-breadcrumb">
+    <div class="container text-center">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1>الزبائن</h1>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End All Pages -->
+        <!-- Start blog -->
+<div class="blog-box">
+    <div class="container text-right"dir="rtl">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="heading-title text-center">
+                    <h2>قائمة الزبائن</h2>
+                    <p>يمكنك الضغط على زر استعراض لرؤية تفاصيل الزبون والوجبات التي يفضلها والتي يطلبها</p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+
+            @foreach (var item in Model)
+            {
+                <div class="col-lg-4 col-md-6 col-12">
+                    <div class="blog-box-inner">
+                        <div class="blog-img-box">
+                            <img class="img-fluid" src="@Url.Content("~/images/user.png")" alt="">
+                        </div>
+                        <div class="blog-detail">
+                            <h4> الاسم: @Html.DisplayFor(modelItem => item.name) </h4>
+                            <ul>
+                                <li><span>رقم الهاتف: @Html.DisplayFor(modelItem => item.phone)</span></li>
+                            </ul>
+                            <p>العنوان: @Html.DisplayFor(modelItem => item.address)</p>
+                            <br /><br /><p>يمكنك الضغط على زر استعراض لرؤية المزيد من التفاصيل عن الزبون</p><br />
+                            @using (Html.BeginForm("report", "Management", FormMethod.Post))
+                            {
+                                <input type="submit" name="@item.Id" id="@item.Id" value="استعراض" class="btn btn-lg btn-circle btn-outline-new-white" />
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

@@ -15,13 +15,13 @@ namespace FFR.Controllers
         // GET: Management
         public ActionResult Index()
         {
-            if(Session["admin"]==null)return RedirectToAction("login_signup", "Home", null);
+            if(Session["admin"]==null)return RedirectToAction("access_denied", "Home", null);
             return View();
         }
         [HttpGet]
         public ActionResult Add(FormCollection col)
         {
-            if (Session["admin"] == null) return RedirectToAction("login_signup", "Home", null);
+            if (Session["admin"] == null) return RedirectToAction("access_denied", "Home", null);
             return View();
         }
         [HttpPost]
@@ -47,7 +47,7 @@ namespace FFR.Controllers
         [HttpGet]
         public ActionResult Create()
         {
-            if (Session["admin"] == null) return RedirectToAction("login_signup", "Home", null);
+            if (Session["admin"] == null) return RedirectToAction("access_denied", "Home", null);
             ViewBag.category_id = new SelectList(db.categories, "Id", "name");
             return View();
         }
@@ -85,7 +85,7 @@ namespace FFR.Controllers
         }
         public ActionResult delete(int? id)
         {
-            if (Session["admin"] == null) return RedirectToAction("login_signup", "Home", null);
+            if (Session["admin"] == null) return RedirectToAction("access_denied", "Home", null);
             if (id != null)
             {
                System.IO.File.Delete(Server.MapPath("~/pics/") + (from x in db.meals where x.Id == id select x.picture).FirstOrDefault());
@@ -98,7 +98,7 @@ namespace FFR.Controllers
         }
         public ActionResult Del_cat(int? id)
         {
-            if (Session["admin"] == null) return RedirectToAction("login_signup", "Home", null);
+            if (Session["admin"] == null) return RedirectToAction("access_denied", "Home", null);
             if (id != null)
             {
                 db.categories.Remove((from x in db.categories where x.Id == id select x).FirstOrDefault());
@@ -111,7 +111,7 @@ namespace FFR.Controllers
 
         public ActionResult Edit_list()
         {
-            if (Session["admin"] == null) return RedirectToAction("login_signup", "Home", null);
+            if (Session["admin"] == null) return RedirectToAction("access_denied", "Home", null);
             List<meal>l = (from x in db.meals select x).ToList();
             return View(l);
         }
@@ -149,7 +149,7 @@ namespace FFR.Controllers
         }
         public ActionResult delete_offer(int? id)
         {
-            if (Session["admin"] == null) return RedirectToAction("login_signup", "Home", null);
+            if (Session["admin"] == null) return RedirectToAction("access_denied", "Home", null);
             if (id != null)
             {
                 meal m = (from x in db.meals where x.Id == id select x).FirstOrDefault();
@@ -163,13 +163,13 @@ namespace FFR.Controllers
         }
         public ActionResult create_offer_list()
         {
-            if (Session["admin"] == null) return RedirectToAction("login_signup", "Home", null);
+            if (Session["admin"] == null) return RedirectToAction("access_denied", "Home", null);
             List<meal> lst = (from x in db.meals where x.price == x.discount_price select x).ToList();
             return View(lst);
         }
         public ActionResult create_offer(int id)
         {
-            if (Session["admin"] == null) return RedirectToAction("login_signup", "Home", null);
+            if (Session["admin"] == null) return RedirectToAction("access_denied", "Home", null);
             meal m = (from x in db.meals where x.Id == id select x).FirstOrDefault();
             return View(m);
         }
@@ -186,7 +186,7 @@ namespace FFR.Controllers
         }
         public ActionResult requests(int?id)
         {
-            if (Session["admin"] == null) return RedirectToAction("login_signup", "Home", null);
+            if (Session["admin"] == null) return RedirectToAction("access_denied", "Home", null);
             if (id != null)
             {
                 request r = (from x in db.requests where x.Id == id select x).FirstOrDefault();
@@ -197,6 +197,20 @@ namespace FFR.Controllers
             }
             List<request> reqs = (from x in db.requests where x.done != true select x).ToList();
             return View(reqs);
+        }
+        public ActionResult reports_list()
+        {
+            if (Session["admin"] == null) return RedirectToAction("access_denied", "Home", null);
+            return View(db.customers.ToList());
+        }
+        [HttpPost]
+        public ActionResult report(FormCollection col)
+        {
+            int id = Convert.ToInt32(col.AllKeys[0]);
+            ViewBag.favs = (from x in db.favorits where x.customer_id == id select x).ToList();
+            ViewBag.reqs = (from x in db.requests where x.customer_id == id select x).ToList();
+            customer c = (from x in db.customers where x.Id == id select x).First();
+            return View(c);
         }
     }
 }

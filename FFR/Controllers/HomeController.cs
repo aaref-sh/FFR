@@ -20,7 +20,7 @@ namespace FFR.Controllers
         }
         public ActionResult favorit()
         {
-            if (Session["id"] == null) return RedirectToAction("login_signup");
+            if (Session["id"] == null) return RedirectToAction("access_denied");
             int user = Convert.ToInt32(Session["id"]);
             List<meal> mls = (from x in db.favorits where x.customer_id == user select x.meal).ToList();
             List<category> cats = (from x in mls select x.category).ToList();
@@ -100,7 +100,7 @@ namespace FFR.Controllers
         static string center_id = "";
         public ActionResult chose()
         {
-            if (Session["id"] == null) return RedirectToAction("login_signup");
+            if (Session["id"] == null) return RedirectToAction("access_denied");
             ViewBag.center_id = new SelectList(db.centers, "Id", "name");
             return View();
         } 
@@ -113,7 +113,7 @@ namespace FFR.Controllers
         [HttpGet]
         public ActionResult request()
         {
-            if (Session["id"] == null) return RedirectToAction("login_signup");
+            if (Session["id"] == null) return RedirectToAction("access_denied");
             int user = Convert.ToInt32(Session["id"]);
             ViewBag.reqs = (from x in db.requests where x.done != true && x.customer_id == user select x).ToList();
             ViewBag.cats = db.categories.ToList();
@@ -144,6 +144,7 @@ namespace FFR.Controllers
                 req.center_id = Convert.ToInt32(center_id);
                 req.customer_id = user;
                 req.meal_id = Convert.ToInt32(col.AllKeys[1]);
+                req.reqdate = DateTime.Now;
                 db.requests.Add(req);
                 db.SaveChanges();
                 ViewBag.message = "تم الطلب";
@@ -169,6 +170,10 @@ namespace FFR.Controllers
             ViewBag.cats = db.categories.ToList();
             List<meal> meals = (from x in db.meals where x.price != x.discount_price select x).ToList();
             return View(meals);
+        }
+        public ActionResult access_denied()
+        {
+            return View();
         }
     }
 }

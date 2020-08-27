@@ -1,0 +1,150 @@
+﻿@model FFR.Models.customer
+
+@{
+    ViewBag.Title = "التقرير";
+    List<FFR.Models.request> reqs = ViewBag.reqs;
+    List<FFR.Models.favorit> favs = ViewBag.favs;
+
+}
+
+<!-- Start All Pages -->
+<div class="all-page-title page-breadcrumb">
+    <div class="container text-center">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1>الزبائن</h1>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End All Pages -->
+<!-- Start blog -->
+<div class="blog-box">
+    <div class="container text-right" dir="rtl">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="heading-title text-center">
+                    <br />
+                    <h2>التقرير</h2>
+                    <p>هنا تجد معلومات الزبون ووجباته المفضلة في القسم الأول كما تجد سجل الطلبات الخاص به للوجبات التي قد طلبها مسبقاً</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Start Contact info -->
+<div class="contact-imfo-box">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 arrow-right">
+                <i class="fa fa-phone"></i>
+                <div class="overflow-hidden">
+                    <h4>الهاتف</h4>
+                    <p class="lead">
+                        @Model.phone
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-4 arrow-right">
+                <i class="fa fa-user"></i>
+                <div class="overflow-hidden">
+                    <h4>الاسم</h4>
+                    <p class="lead">
+                        @Model.name
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <i class="fa fa-map-marker"></i>
+                <div class="overflow-hidden">
+                    <h4>العنوان</h4>
+                    <p class="lead">
+                        @Model.address
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Contact info -->
+<!-- Start blog -->
+<div class="blog-box">
+    <div class="container text-right" dir="rtl">
+        <div class="row text-center">
+            <div class="col-12">
+                <h3>الوجبات المفضلة</h3>
+            </div>
+        </div>
+        <div class="row">
+            @foreach (var item in favs)
+            {
+                <div class="col-md-3 special-grid drinks">
+                    <div class="gallery-single fix">
+                        <img src="@Url.Content("~/pics/" + item.meal.picture)" class="img-fluid" alt="Image">
+                        <div class="why-text">
+                            @Html.ActionLink(item.meal.name, "details", new { id = item.Id }, new { @class = "act" })
+                            <p></p>
+                            <p style="font-size: 20px; display: inline;"> @item.meal.discount_price ل.س</p>
+                            @if (item.meal.discount_price != item.meal.price)
+                            {
+                                <p style="font-size: 17px; color: #e4e4e4; text-decoration: line-through; display: inline;"> @item.meal.price ل.س</p>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+
+        <div class="row text-center">
+            <div class="col-12">
+                <h3>سجل الطلبات</h3>
+            </div>
+        </div>
+        <table class="table table-responsive-sm">
+            <tr>
+                <th>
+                    اسم الوجبة
+                </th>
+                <th>
+                    اسم ساحب الطلب
+                </th>
+                <th>
+                    السعر
+                </th>
+                <th>
+                    مكان الاستلام
+                </th>
+                <th>التاريخ</th>
+            </tr>
+
+            @foreach (var item in reqs)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.meal.name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.customer.name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.meal.price)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.center.name)
+                        @if (item.center.name[0] == 'ت')
+                        {
+                            @Html.DisplayFor(modelItem => item.customer.address)
+
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.reqdate)
+                    </td>
+                </tr>
+            }
+
+        </table>
+
+    </div>
+</div>

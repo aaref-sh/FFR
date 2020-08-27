@@ -20,3 +20,16 @@ a {
 	border: 1px solid #d65106;
 	box-shadow: none;
 }
+
+.btn-outline-new-white {
+    color: #fff;
+    background-color: #d65106;
+    background-image: none;
+    border-color: #d65106;
+}
+
+    .btn-outline-new-white:hover {
+        color: #ffffff;
+        background-color: #333333;
+        border-color: #333333;
+    }

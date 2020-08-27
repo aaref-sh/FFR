@@ -1,0 +1,28 @@
+﻿
+@{
+    ViewBag.Title = "تعذر الوصول";
+}
+
+
+
+<!-- Start All Pages -->
+<div class="all-page-title page-breadcrumb">
+    <div class="container text-center">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1>تعذر الوصول </h1>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End All Pages -->
+<!-- Start Stuff -->
+<div class="stuff-box">
+    <div class="container text-right" dir="rtl">
+        <h1 class="text-center">لا يمكنك الوصول للصفحة المطلوبة</h1>
+
+        <div>
+            @Html.ActionLink("العودة للصفحة الرئيسية", "Index","Home",null,null)
+        </div>
+    </div>
+</div>
