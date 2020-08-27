@@ -1,0 +1,83 @@
+﻿@model FFR.Models.customer
+
+@{
+    ViewBag.Title = "إدارة الملف الشخصي";
+}
+
+<!-- Start All Pages -->
+<div class="all-page-title page-breadcrumb">
+    <div class="container text-center">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1>إدارة الملف الشخصي</h1>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End All Pages -->
+<!-- Start Stuff -->
+<div class="stuff-box">
+    <div class="container text-right" dir="rtl">
+        @if (ViewBag.message != null)
+        {
+            <div class="alert alert-info alert-dismissible fade show" role="alert">
+                @ViewBag.message
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        }
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.Id)
+
+                <div class="form-group">
+                    <p class="control-label col-md-2">الاسم</p>
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.name, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <p class="control-label col-md-2">كلمة المرور</p>
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.password, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.password, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <p class="control-label col-md-2">العنوان</p>
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.address, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.address, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <p class="control-label col-md-2">رقم الهاتف</p>
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.phone, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.phone, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" name="submit" value="تحديث" class="btn btn-outline-success" />
+                    </div>
+                </div>
+            </div>
+        }
+
+        <div>
+            @Html.ActionLink("العودة للصفحة الرئيسية", "Index")
+        </div>
+    </div>
+</div>

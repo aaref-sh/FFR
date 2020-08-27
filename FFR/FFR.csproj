@@ -366,6 +366,7 @@
     <Content Include="Views\Home\access_denied.cshtml" />
     <Content Include="Views\Management\reports_list.cshtml" />
     <Content Include="Views\Management\report.cshtml" />
+    <Content Include="Views\Home\edit_profile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\index.d.ts" />

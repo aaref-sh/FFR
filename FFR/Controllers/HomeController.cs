@@ -1,6 +1,7 @@
 ﻿using FFR.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -109,6 +110,23 @@ namespace FFR.Controllers
         {
             center_id = col[1];
             return RedirectToAction("request");
+        }
+        [HttpGet]
+        public ActionResult edit_profile()
+        {
+            if (Session["id"] == null) return RedirectToAction("access_denied");
+            int user = Convert.ToInt32(Session["id"]);
+            customer c = (from x in db.customers where x.Id == user select x).First();
+            return View(c);
+        }
+        [HttpPost]
+        public ActionResult edit_profile(customer c)
+        {
+            if (Session["id"] == null) return RedirectToAction("access_denied");
+            db.customers.AddOrUpdate(c);
+            db.SaveChanges();
+            ViewBag.message = "تم تحديث بيانات الملف الشخصي";
+            return View(c);
         }
         [HttpGet]
         public ActionResult request()

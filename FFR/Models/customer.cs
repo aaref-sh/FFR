@@ -11,7 +11,8 @@ namespace FFR.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class customer
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -22,9 +23,16 @@ namespace FFR.Models
         }
     
         public int Id { get; set; }
+        [Required(ErrorMessage ="«”„ «·„” Œœ„ „ÿ·Ê»")]
+        [StringLength(20, MinimumLength = 4, ErrorMessage = "«”„ «·„” Œœ„ ÌÃ» √‰ ÌﬂÊ‰ 4 √Õ—› ⁄·Ï «·√ﬁ·")]
         public string name { get; set; }
+        [Required(ErrorMessage = "ﬂ·„… «·„—Ê— „ÿ·Ê»…")]
+        [StringLength(20, MinimumLength = 6, ErrorMessage = "ﬂ·„… «·„—Ê— √‰  ﬂÊ‰ 6 „Õ«—› ⁄·Ï «·√ﬁ·")]
+        [DataType(DataType.Password)]
         public string password { get; set; }
+        [Required(ErrorMessage = "«·⁄‰Ê«‰ „ÿ·Ê»")]
         public string address { get; set; }
+        [Required(ErrorMessage = "—ﬁ„ «·Â« › „ÿ·Ê»")]
         public string phone { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
