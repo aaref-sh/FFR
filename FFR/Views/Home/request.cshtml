@@ -61,35 +61,41 @@
                 <th>
                     مكان الاستلام
                 </th>
+                <th>
+                    التاريخ
+                </th>
                 <th></th>
             </tr>
 
             @foreach (var item in reqs)
             {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Id)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.meal.name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.meal.price)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.meal.category.name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.center.name)
-                    </td>
-                    <td>
-                        @using (Html.BeginForm("request", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
-                        {
-                            @Html.AntiForgeryToken()
-                            <input type="submit" name="@item.Id" id="@item.Id" value="إلغاء الطلب" class="btn btn-danger btn-sm" />
-                        }
-                    </td>
-                </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.meal.name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.meal.price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.meal.category.name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.center.name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.reqdate)
+            </td>
+            <td>
+                @using (Html.BeginForm("request", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <input type="submit" name="@item.Id" id="@item.Id" value="إلغاء الطلب" class="btn btn-danger btn-sm" />
+                }
+            </td>
+        </tr>
             }
 
         </table>

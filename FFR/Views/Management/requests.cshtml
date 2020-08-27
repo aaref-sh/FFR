@@ -38,6 +38,9 @@
                 <th>
                     مكان الاستلام
                 </th>
+                <th>
+                    التاريخ
+                </th>
                 <th>تعيينه كمعالج</th>
             </tr>
 
@@ -69,6 +72,9 @@
                         {
                             @Html.DisplayFor(modelItem => item.center.name)
                         }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.reqdate)
                     </td>
                     <td>
                         @Html.ActionLink("تم", "requests", new { id = item.Id }, new { @class = "btn btn-success btn-sm" })
