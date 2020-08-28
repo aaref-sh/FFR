@@ -77,7 +77,7 @@ namespace FFR.Controllers
             }
             else
             {
-                string name = col[1], pass = col[2], phone = col[3], address = col[4];
+                string name = col[1], pass = col[4], phone = col[3], address = col[2];
                 customer cus = new customer();
                 cus.name = name.Trim();
                 cus.password = pass;
