@@ -24,7 +24,7 @@ namespace FFR.Controllers
             if (Session["id"] == null) return RedirectToAction("access_denied");
             int user = Convert.ToInt32(Session["id"]);
             List<meal> mls = (from x in db.favorits where x.customer_id == user select x.meal).ToList();
-            List<category> cats = (from x in mls select x.category).ToList();
+            List<category> cats = (from x in db.categories select x).ToList();
             ViewBag.cats = cats;
             return View(mls);
         }
