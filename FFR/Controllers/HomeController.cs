@@ -165,7 +165,11 @@ namespace FFR.Controllers
                 req.reqdate = DateTime.Now;
                 db.requests.Add(req);
                 db.SaveChanges();
-                ViewBag.message = "تم الطلب";
+                List<request> reqs = (from x in db.requests where x.center_id == req.center_id && x.done != true select x).ToList();
+                int mins = reqs.Count()*7;
+                string after = "يمكنك استلام الطلب بعد " + mins + " دقيقة من الآن";
+                if(req.center_id == 5)  after = "سيصلك الطلب بعد " + (int)(mins + 10) + " دقيقة من الآن";
+                ViewBag.message = "تم الطلب، "+after;
             }
             else
             {
